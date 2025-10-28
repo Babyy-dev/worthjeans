@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import ProductCard from "./ProductCard";
-import { supabase } from "@/integrations/supabase/client";
+import { api } from "@/lib/api";
 
 const BestSellers = () => {
   const [products, setProducts] = useState<any[]>([]);
@@ -8,17 +8,12 @@ const BestSellers = () => {
 
   useEffect(() => {
     const fetchFeaturedProducts = async () => {
-      const { data, error } = await supabase
-        .from("products")
-        .select("*")
-        .eq("is_active", true)
-        .eq("is_featured", true)
-        .limit(4);
-
-      if (!error && data) {
+      try {
+        const data = await api.get("/products?is_active=1&is_featured=1&limit=4");
         setProducts(data);
+      } finally {
+        setLoading(false);
       }
-      setLoading(false);
     };
 
     fetchFeaturedProducts();

@@ -9,9 +9,9 @@ import { Switch } from "@/components/ui/switch";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 import { X, Upload, Loader2 } from "lucide-react";
+import { api } from "@/lib/api";
 
 const productSchema = z.object({
   name: z.string().min(1, "Name is required").max(100),
@@ -68,27 +68,14 @@ export const ProductForm = ({ product, onClose }: ProductFormProps) => {
   }, []);
 
   const loadCategories = async () => {
-    const { data } = await supabase.from("categories").select("id, name").order("name");
-    if (data) setCategories(data);
+    const data = await api.get('/categories');
+    setCategories(data || []);
   };
 
   const uploadImage = async (file: File): Promise<string | null> => {
     try {
-      const fileExt = file.name.split(".").pop();
-      const fileName = `${Math.random()}.${fileExt}`;
-      const filePath = `${fileName}`;
-
-      const { error: uploadError } = await supabase.storage
-        .from("product-images")
-        .upload(filePath, file);
-
-      if (uploadError) throw uploadError;
-
-      const { data: { publicUrl } } = supabase.storage
-        .from("product-images")
-        .getPublicUrl(filePath);
-
-      return publicUrl;
+      const { url } = await api.upload('/upload', file);
+      return url as string;
     } catch (error) {
       console.error("Error uploading image:", error);
       toast({
@@ -152,25 +139,16 @@ export const ProductForm = ({ product, onClose }: ProductFormProps) => {
       is_active: data.is_active,
     };
 
-    let error;
-    if (product) {
-      ({ error } = await supabase.from("products").update(productData).eq("id", product.id));
-    } else {
-      ({ error } = await supabase.from("products").insert([productData]));
-    }
-
-    if (error) {
-      toast({
-        title: "Error saving product",
-        description: error.message,
-        variant: "destructive",
-      });
-    } else {
-      toast({
-        title: "Success",
-        description: `Product ${product ? "updated" : "created"} successfully`,
-      });
+    try {
+      if (product) {
+        await api.put(`/products/${product.id}`, productData);
+      } else {
+        await api.post('/products', productData);
+      }
+      toast({ title: "Success", description: `Product ${product ? "updated" : "created"} successfully` });
       onClose();
+    } catch (e: any) {
+      toast({ title: "Error saving product", description: e.message, variant: "destructive" });
     }
   };
 

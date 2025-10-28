@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Plus, Pencil, Trash2 } from "lucide-react";
-import { supabase } from "@/integrations/supabase/client";
 import { CategoryForm } from "./CategoryForm";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { useToast } from "@/hooks/use-toast";
+import { api } from "@/lib/api";
 
 interface Category {
   id: string;
@@ -24,39 +24,22 @@ export const AdminCategories = () => {
   }, []);
 
   const loadCategories = async () => {
-    const { data, error } = await supabase
-      .from("categories")
-      .select("*")
-      .order("name");
-
-    if (error) {
-      toast({
-        title: "Error loading categories",
-        description: error.message,
-        variant: "destructive",
-      });
-    } else {
+    try {
+      const data = await api.get('/categories');
       setCategories(data || []);
+    } catch (e: any) {
+      toast({ title: "Error loading categories", description: e.message, variant: "destructive" });
     }
   };
 
   const handleDelete = async (id: string) => {
     if (!confirm("Are you sure you want to delete this category?")) return;
-
-    const { error } = await supabase.from("categories").delete().eq("id", id);
-
-    if (error) {
-      toast({
-        title: "Error deleting category",
-        description: error.message,
-        variant: "destructive",
-      });
-    } else {
-      toast({
-        title: "Category deleted",
-        description: "Category has been successfully deleted",
-      });
+    try {
+      await api.delete(`/categories/${id}`);
+      toast({ title: "Category deleted", description: "Category has been successfully deleted" });
       loadCategories();
+    } catch (e: any) {
+      toast({ title: "Error deleting category", description: e.message, variant: "destructive" });
     }
   };
 

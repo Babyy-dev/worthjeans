@@ -2,8 +2,8 @@ import { useState, useEffect } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { Link } from "react-router-dom";
-import { supabase } from "@/integrations/supabase/client";
 import dressesImage from "@/assets/category-dresses.jpg";
+import { api } from "@/lib/api";
 import coordsImage from "@/assets/category-coords.jpg";
 import { FloatingButtons } from "@/components/FloatingButtons";
 
@@ -13,14 +13,12 @@ const Category = () => {
 
   useEffect(() => {
     const fetchCategories = async () => {
-      const { data, error } = await supabase
-        .from("categories")
-        .select("*");
-
-      if (!error && data) {
-        setCategories(data);
+      try {
+        const data = await api.get('/categories');
+        setCategories(data || []);
+      } finally {
+        setLoading(false);
       }
-      setLoading(false);
     };
 
     fetchCategories();

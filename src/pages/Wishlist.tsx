@@ -4,9 +4,9 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import ProductCard from "@/components/ProductCard";
 import { FloatingButtons } from "@/components/FloatingButtons";
-import { supabase } from "@/integrations/supabase/client";
 import { Loader2 } from "lucide-react";
 import { useWishlist } from "@/hooks/useWishlist";
+import { api } from "@/lib/api";
 
 interface Product {
   id: string;
@@ -38,8 +38,9 @@ const Wishlist = () => {
   }, [wishlistItems]);
 
   const checkAuth = async () => {
-    const { data: { user } } = await supabase.auth.getUser();
-    if (!user) {
+    try {
+      await api.get('/auth/me');
+    } catch {
       navigate("/auth");
     }
   };
@@ -47,13 +48,7 @@ const Wishlist = () => {
   const fetchWishlistProducts = async () => {
     try {
       setLoading(true);
-      const { data, error } = await supabase
-        .from("products")
-        .select("*")
-        .in("id", wishlistItems)
-        .eq("is_active", true);
-
-      if (error) throw error;
+      const data = await api.get('/wishlist/products');
       setProducts(data || []);
     } catch (error) {
       console.error("Error fetching wishlist products:", error);

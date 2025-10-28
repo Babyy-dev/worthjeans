@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { supabase } from "@/integrations/supabase/client";
 import dressesImage from "@/assets/category-dresses.jpg";
 import coordsImage from "@/assets/category-coords.jpg";
+import { api } from "@/lib/api";
 
 const CategoryShowcase = () => {
   const [categories, setCategories] = useState<any[]>([]);
@@ -10,15 +10,12 @@ const CategoryShowcase = () => {
 
   useEffect(() => {
     const fetchCategories = async () => {
-      const { data, error } = await supabase
-        .from("categories")
-        .select("*")
-        .limit(2);
-
-      if (!error && data) {
-        setCategories(data);
+      try {
+        const data = await api.get('/categories');
+        setCategories((data || []).slice(0, 2));
+      } finally {
+        setLoading(false);
       }
-      setLoading(false);
     };
 
     fetchCategories();

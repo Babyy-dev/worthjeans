@@ -1,8 +1,8 @@
 import { LayoutDashboard, Package, FolderOpen, LogOut, BarChart3, Users } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { supabase } from "@/integrations/supabase/client";
 import { useNavigate } from "react-router-dom";
 import { cn } from "@/lib/utils";
+import { setToken } from "@/lib/auth";
 
 interface AdminSidebarProps {
   activeTab: string;
@@ -13,7 +13,7 @@ export const AdminSidebar = ({ activeTab, setActiveTab }: AdminSidebarProps) => 
   const navigate = useNavigate();
 
   const handleLogout = async () => {
-    await supabase.auth.signOut();
+    setToken(null);
     navigate("/");
   };
 

@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { supabase } from "@/integrations/supabase/client";
 import { Package, FolderOpen, TrendingUp, DollarSign } from "lucide-react";
+import { api } from "@/lib/api";
 
 export const AdminDashboard = () => {
   const [stats, setStats] = useState({
@@ -16,18 +16,16 @@ export const AdminDashboard = () => {
   }, []);
 
   const loadStats = async () => {
-    const [productsRes, categoriesRes, activeRes, featuredRes] = await Promise.all([
-      supabase.from("products").select("*", { count: "exact", head: true }),
-      supabase.from("categories").select("*", { count: "exact", head: true }),
-      supabase.from("products").select("*", { count: "exact", head: true }).eq("is_active", true),
-      supabase.from("products").select("*", { count: "exact", head: true }).eq("is_featured", true),
+    const [products, categories] = await Promise.all([
+      api.get('/products'),
+      api.get('/categories')
     ]);
 
     setStats({
-      totalProducts: productsRes.count || 0,
-      totalCategories: categoriesRes.count || 0,
-      activeProducts: activeRes.count || 0,
-      featuredProducts: featuredRes.count || 0,
+      totalProducts: (products || []).length,
+      totalCategories: (categories || []).length,
+      activeProducts: (products || []).filter((p: any) => p.is_active).length,
+      featuredProducts: (products || []).filter((p: any) => p.is_featured).length,
     });
   };
 

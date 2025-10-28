@@ -3,8 +3,8 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import ProductCard from "@/components/ProductCard";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { supabase } from "@/integrations/supabase/client";
 import { FloatingButtons } from "@/components/FloatingButtons";
+import { api } from "@/lib/api";
 
 const Collections = () => {
   const [products, setProducts] = useState<any[]>([]);
@@ -12,15 +12,12 @@ const Collections = () => {
 
   useEffect(() => {
     const fetchProducts = async () => {
-      const { data, error } = await supabase
-        .from("products")
-        .select("*")
-        .eq("is_active", true);
-
-      if (!error && data) {
-        setProducts(data);
+      try {
+        const data = await api.get('/products?is_active=1');
+        setProducts(data || []);
+      } finally {
+        setLoading(false);
       }
-      setLoading(false);
     };
 
     fetchProducts();

@@ -7,9 +7,9 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 import { X, Upload, Loader2 } from "lucide-react";
+import { api } from "@/lib/api";
 
 const categorySchema = z.object({
   name: z.string().min(1, "Name is required").max(100),
@@ -41,21 +41,8 @@ export const CategoryForm = ({ category, onClose }: CategoryFormProps) => {
 
   const uploadImage = async (file: File): Promise<string | null> => {
     try {
-      const fileExt = file.name.split(".").pop();
-      const fileName = `${Math.random()}.${fileExt}`;
-      const filePath = `${fileName}`;
-
-      const { error: uploadError } = await supabase.storage
-        .from("product-images")
-        .upload(filePath, file);
-
-      if (uploadError) throw uploadError;
-
-      const { data: { publicUrl } } = supabase.storage
-        .from("product-images")
-        .getPublicUrl(filePath);
-
-      return publicUrl;
+      const { url } = await api.upload('/upload', file);
+      return url as string;
     } catch (error) {
       console.error("Error uploading image:", error);
       toast({
@@ -88,25 +75,16 @@ export const CategoryForm = ({ category, onClose }: CategoryFormProps) => {
       image_url: data.image_url || null,
     };
 
-    let error;
-    if (category) {
-      ({ error } = await supabase.from("categories").update(categoryData).eq("id", category.id));
-    } else {
-      ({ error } = await supabase.from("categories").insert([categoryData]));
-    }
-
-    if (error) {
-      toast({
-        title: "Error saving category",
-        description: error.message,
-        variant: "destructive",
-      });
-    } else {
-      toast({
-        title: "Success",
-        description: `Category ${category ? "updated" : "created"} successfully`,
-      });
+    try {
+      if (category) {
+        await api.put(`/categories/${category.id}`, categoryData);
+      } else {
+        await api.post('/categories', categoryData);
+      }
+      toast({ title: "Success", description: `Category ${category ? "updated" : "created"} successfully` });
       onClose();
+    } catch (e: any) {
+      toast({ title: "Error saving category", description: e.message, variant: "destructive" });
     }
   };
 

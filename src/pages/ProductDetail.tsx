@@ -5,7 +5,7 @@ import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Heart, ShoppingBag, Truck, RefreshCw, Shield } from "lucide-react";
-import { supabase } from "@/integrations/supabase/client";
+import { api } from "@/lib/api";
 import product1 from "@/assets/product-1.jpg";
 import { FloatingButtons } from "@/components/FloatingButtons";
 import { useCart } from "@/hooks/useCart";
@@ -24,16 +24,14 @@ const ProductDetail = () => {
 
   useEffect(() => {
     const fetchProduct = async () => {
-      const { data, error } = await supabase
-        .from("products")
-        .select("*")
-        .eq("id", id)
-        .single();
-
-      if (!error && data) {
+      try {
+        const data = await api.get(`/products/${id}`);
         setProduct(data);
+      } catch (_) {
+        setProduct(null);
+      } finally {
+        setLoading(false);
       }
-      setLoading(false);
     };
 
     if (id) {

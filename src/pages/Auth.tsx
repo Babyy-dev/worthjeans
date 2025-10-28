@@ -7,9 +7,10 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 import { FloatingButtons } from "@/components/FloatingButtons";
+import { api } from "@/lib/api";
+import { setToken } from "@/lib/auth";
 
 const Auth = () => {
   const navigate = useNavigate();
@@ -26,28 +27,15 @@ const Auth = () => {
     setLoading(true);
     
     try {
-      const { data, error } = await supabase.auth.signInWithPassword({
-        email: loginEmail,
-        password: loginPassword,
-      });
-
-      if (error) throw error;
-
-      // Check if user is admin
-      const { data: roleData } = await supabase
-        .from("user_roles")
-        .select("role")
-        .eq("user_id", data.user.id)
-        .eq("role", "admin")
-        .maybeSingle();
+      const res = await api.post('/auth/login', { email: loginEmail, password: loginPassword });
+      setToken(res.token);
 
       toast({
         title: "Login successful",
         description: "Welcome back!",
       });
 
-      // Redirect to admin panel if user is admin, otherwise home
-      if (roleData) {
+      if (res.user?.role === 'admin') {
         navigate("/admin");
       } else {
         navigate("/");
@@ -68,18 +56,7 @@ const Auth = () => {
     setLoading(true);
     
     try {
-      const { data, error } = await supabase.auth.signUp({
-        email: registerEmail,
-        password: registerPassword,
-        options: {
-          emailRedirectTo: `${window.location.origin}/`,
-          data: {
-            full_name: registerName,
-          }
-        }
-      });
-
-      if (error) throw error;
+      await api.post('/auth/register', { email: registerEmail, password: registerPassword, full_name: registerName });
 
       toast({
         title: "Account created",

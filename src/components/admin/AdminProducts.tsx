@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Plus, Pencil, Trash2 } from "lucide-react";
-import { supabase } from "@/integrations/supabase/client";
 import { ProductForm } from "./ProductForm";
+import { api } from "@/lib/api";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
 import { useToast } from "@/hooks/use-toast";
@@ -29,39 +29,22 @@ export const AdminProducts = () => {
   }, []);
 
   const loadProducts = async () => {
-    const { data, error } = await supabase
-      .from("products")
-      .select("*")
-      .order("created_at", { ascending: false });
-
-    if (error) {
-      toast({
-        title: "Error loading products",
-        description: error.message,
-        variant: "destructive",
-      });
-    } else {
+    try {
+      const data = await api.get('/products');
       setProducts(data || []);
+    } catch (e: any) {
+      toast({ title: "Error loading products", description: e.message, variant: "destructive" });
     }
   };
 
   const handleDelete = async (id: string) => {
     if (!confirm("Are you sure you want to delete this product?")) return;
-
-    const { error } = await supabase.from("products").delete().eq("id", id);
-
-    if (error) {
-      toast({
-        title: "Error deleting product",
-        description: error.message,
-        variant: "destructive",
-      });
-    } else {
-      toast({
-        title: "Product deleted",
-        description: "Product has been successfully deleted",
-      });
+    try {
+      await api.delete(`/products/${id}`);
+      toast({ title: "Product deleted", description: "Product has been successfully deleted" });
       loadProducts();
+    } catch (e: any) {
+      toast({ title: "Error deleting product", description: e.message, variant: "destructive" });
     }
   };
 

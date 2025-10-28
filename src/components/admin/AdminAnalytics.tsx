@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
-import { supabase } from "@/integrations/supabase/client";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Users, Activity, UserPlus, TrendingUp } from "lucide-react";
 import { format } from "date-fns";
+import { api } from "@/lib/api";
 
 interface UserActivity {
   id: string;
@@ -33,38 +33,12 @@ export const AdminAnalytics = () => {
 
   const loadAnalytics = async () => {
     try {
-      const today = new Date();
-      today.setHours(0, 0, 0, 0);
-
-      // Get total users
-      const { count: totalUsers } = await supabase
-        .from("profiles")
-        .select("*", { count: "exact", head: true });
-
-      // Get new users today
-      const { count: newUsersToday } = await supabase
-        .from("profiles")
-        .select("*", { count: "exact", head: true })
-        .gte("created_at", today.toISOString());
-
-      // Get total logins
-      const { count: totalLogins } = await supabase
-        .from("user_activity")
-        .select("*", { count: "exact", head: true })
-        .eq("activity_type", "user_login");
-
-      // Get recent activity
-      const { data: recentActivity } = await supabase
-        .from("user_activity")
-        .select("*")
-        .order("created_at", { ascending: false })
-        .limit(10);
-
+      const data = await api.get('/admin/analytics');
       setStats({
-        totalUsers: totalUsers || 0,
-        newUsersToday: newUsersToday || 0,
-        totalLogins: totalLogins || 0,
-        recentActivity: recentActivity || [],
+        totalUsers: data.totalUsers || 0,
+        newUsersToday: data.newUsersToday || 0,
+        totalLogins: data.totalLogins || 0,
+        recentActivity: data.recentActivity || [],
       });
     } catch (error) {
       console.error("Error loading analytics:", error);

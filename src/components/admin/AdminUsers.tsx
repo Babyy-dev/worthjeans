@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import { supabase } from "@/integrations/supabase/client";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { api } from "@/lib/api";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { useToast } from "@/hooks/use-toast";
@@ -26,37 +26,11 @@ export const AdminUsers = () => {
 
   const loadUsers = async () => {
     try {
-      const { data: profiles, error: profilesError } = await supabase
-        .from("profiles")
-        .select("*")
-        .order("created_at", { ascending: false });
-
-      if (profilesError) throw profilesError;
-
-      // Get user roles
-      const userIds = profiles?.map(p => p.id) || [];
-      const { data: roles, error: rolesError } = await supabase
-        .from("user_roles")
-        .select("user_id, role")
-        .in("user_id", userIds);
-
-      if (rolesError) throw rolesError;
-
-      const rolesMap = new Map(roles?.map(r => [r.user_id, r.role]) || []);
-
-      const usersWithRoles = profiles?.map(profile => ({
-        ...profile,
-        role: rolesMap.get(profile.id) || "user",
-      })) || [];
-
-      setUsers(usersWithRoles);
+      const list = await api.get('/admin/users');
+      setUsers(list || []);
     } catch (error) {
       console.error("Error loading users:", error);
-      toast({
-        title: "Error",
-        description: "Failed to load users",
-        variant: "destructive",
-      });
+      toast({ title: "Error", description: "Failed to load users", variant: "destructive" });
     } finally {
       setLoading(false);
     }
@@ -64,42 +38,16 @@ export const AdminUsers = () => {
 
   const toggleAdminRole = async (userId: string, currentRole: string) => {
     try {
-      if (currentRole === "admin") {
-        // Remove admin role
-        const { error } = await supabase
-          .from("user_roles")
-          .delete()
-          .eq("user_id", userId)
-          .eq("role", "admin");
-
-        if (error) throw error;
-
-        toast({
-          title: "Admin role removed",
-          description: "User role has been changed to regular user",
-        });
-      } else {
-        // Add admin role
-        const { error } = await supabase
-          .from("user_roles")
-          .upsert({ user_id: userId, role: "admin" });
-
-        if (error) throw error;
-
-        toast({
-          title: "Admin role granted",
-          description: "User has been granted admin privileges",
-        });
-      }
-
+      const nextRole = currentRole === 'admin' ? 'user' : 'admin';
+      await api.post(`/admin/users/${userId}/role`, { role: nextRole });
+      toast({
+        title: nextRole === 'admin' ? "Admin role granted" : "Admin role removed",
+        description: nextRole === 'admin' ? "User has been granted admin privileges" : "User role has been changed to regular user",
+      });
       loadUsers();
     } catch (error) {
       console.error("Error toggling admin role:", error);
-      toast({
-        title: "Error",
-        description: "Failed to update user role",
-        variant: "destructive",
-      });
+      toast({ title: "Error", description: "Failed to update user role", variant: "destructive" });
     }
   };
 
