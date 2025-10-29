@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 const Hero = () => {
   return (
-    <section className="relative h-[70vh] sm:h-[80vh] md:h-[90vh] flex items-center justify-center overflow-hidden">
+    <section className="relative h-[85vh] sm:h-[90vh] md:h-[90vh] flex items-center justify-center overflow-hidden">
       {/* Background video */}
       <video
         autoPlay
