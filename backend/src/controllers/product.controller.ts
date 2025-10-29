@@ -7,13 +7,15 @@ export const ProductController = {
   listValidators: [
     q('is_active').optional().isIn(['0','1','true','false']),
     q('is_featured').optional().isIn(['0','1','true','false']),
+    q('category').optional().isString(),
     q('limit').optional().isInt({ min: 1, max: 100 }),
   ],
   async list(req: Request, res: Response) {
     const is_active = ['1', 'true'].includes(String(req.query.is_active || ''));
     const is_featured = ['1', 'true'].includes(String(req.query.is_featured || ''));
+    const category = req.query.category ? String(req.query.category) : undefined;
     const limit = req.query.limit ? Number(req.query.limit) : 50;
-    const rows = await Products.list({ is_active, is_featured, limit });
+    const rows = await Products.list({ is_active, is_featured, category, limit });
     res.json(rows);
   },
 
@@ -33,6 +35,7 @@ export const ProductController = {
   upsertValidators: [
     body('name').isString().isLength({ min: 1, max: 100 }),
     body('slug').isString().isLength({ min: 1, max: 100 }),
+    body('category').optional({ nullable: true }).isString().isLength({ max: 50 }),
     body('price').isFloat({ min: 0 }),
     body('original_price').optional({ nullable: true }).isFloat({ min: 0 }),
     body('stock').isInt({ min: 0 }),

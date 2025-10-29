@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 const Hero = () => {
   return (
-    <section className="relative h-[90vh] flex items-center justify-center overflow-hidden">
+    <section className="relative h-[70vh] sm:h-[80vh] md:h-[90vh] flex items-center justify-center overflow-hidden">
       {/* Background video */}
       <video
         autoPlay
@@ -14,23 +14,27 @@ const Hero = () => {
       >
         <source src="/hero-video.mp4" type="video/mp4" />
       </video>
-      
+
       {/* Dark overlay for better text readability */}
       <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/50 to-transparent" />
-      
+
       {/* Content */}
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-left">
         <div className="max-w-xl">
-          <h1 className="text-5xl md:text-7xl font-serif font-semibold mb-6 animate-fade-in text-white">
-            Worth Jeans - Premium Quality
+          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-serif font-semibold mb-4 sm:mb-6 animate-fade-in text-white leading-tight">
+            Worth Jeans - Style with Comfort
           </h1>
-          <p className="text-lg md:text-xl text-gray-200 mb-8 animate-fade-in" style={{ animationDelay: '0.2s' }}>
-            Premium quality jeans and fashion that deliver comfort, style, and lasting value
+          <p
+            className="text-base sm:text-lg md:text-xl text-gray-200 mb-6 sm:mb-8 animate-fade-in"
+            style={{ animationDelay: "0.2s" }}
+          >
+            Premium quality jeans and fashion that deliver comfort, style, and
+            lasting value
           </p>
-          <Button 
-            size="lg" 
-            className="bg-foreground text-background hover:bg-foreground/90 transition-all duration-300 animate-fade-in"
-            style={{ animationDelay: '0.4s' }}
+          <Button
+            size="lg"
+            className="bg-foreground text-background hover:bg-foreground/90 transition-all duration-300 animate-fade-in w-full sm:w-auto"
+            style={{ animationDelay: "0.4s" }}
             asChild
           >
             <Link to="/collections">Shop now</Link>

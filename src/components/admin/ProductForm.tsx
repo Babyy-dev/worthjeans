@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Switch } from "@/components/ui/switch";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useToast } from "@/hooks/use-toast";
@@ -15,6 +16,7 @@ import { api } from "@/lib/api";
 const productSchema = z.object({
   name: z.string().min(1, "Name is required").max(100),
   slug: z.string().min(1, "Slug is required").max(100),
+  category: z.string().optional(),
   description: z.string().optional(),
   price: z.string().min(1, "Price is required"),
   original_price: z.string().optional(),
@@ -43,6 +45,7 @@ export const ProductForm = ({ product, onClose }: ProductFormProps) => {
     defaultValues: {
       name: product?.name || "",
       slug: product?.slug || "",
+      category: product?.category || "",
       description: product?.description || "",
       price: product?.price?.toString() || "",
       original_price: product?.original_price?.toString() || "",
@@ -110,6 +113,7 @@ export const ProductForm = ({ product, onClose }: ProductFormProps) => {
     const productData = {
       name: data.name,
       slug: data.slug,
+      category: data.category || null,
       description: data.description || null,
       price: parseFloat(data.price),
       original_price: data.original_price ? parseFloat(data.original_price) : null,
@@ -168,6 +172,32 @@ export const ProductForm = ({ product, onClose }: ProductFormProps) => {
                     <FormControl>
                       <Input placeholder="product-slug" {...field} />
                     </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              <FormField
+                control={form.control}
+                name="category"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Category</FormLabel>
+                    <Select onValueChange={field.onChange} value={field.value || ""}>
+                      <FormControl>
+                        <SelectTrigger>
+                          <SelectValue placeholder="Select category" />
+                        </SelectTrigger>
+                      </FormControl>
+                      <SelectContent>
+                        <SelectItem value="">None</SelectItem>
+                        <SelectItem value="narrow-fit">Narrow Fit</SelectItem>
+                        <SelectItem value="flare-cut">Flare Cut</SelectItem>
+                        <SelectItem value="straight-fit">Straight Fit</SelectItem>
+                        <SelectItem value="wide-leg">Wide Leg</SelectItem>
+                        <SelectItem value="cargo">Cargo</SelectItem>
+                      </SelectContent>
+                    </Select>
                     <FormMessage />
                   </FormItem>
                 )}

@@ -1,4 +1,4 @@
-import { Search, User, Heart, ShoppingBag, X } from "lucide-react";
+import { Search, User, Heart, ShoppingBag, X, Menu, ChevronDown } from "lucide-react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useEffect, useState, useRef } from "react";
 import { useCart } from "@/hooks/useCart";
@@ -10,12 +10,22 @@ const Navbar = () => {
   const isHomePage = location.pathname === "/";
   const [isScrolled, setIsScrolled] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [collectionsOpen, setCollectionsOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [searchResults, setSearchResults] = useState<any[]>([]);
   const [isSearching, setIsSearching] = useState(false);
   const searchInputRef = useRef<HTMLInputElement>(null);
   const { getCartCount } = useCart();
   const cartCount = getCartCount();
+
+  const collectionTypes = [
+    { name: "Narrow Fit", slug: "narrow-fit" },
+    { name: "Flare Cut", slug: "flare-cut" },
+    { name: "Straight Fit", slug: "straight-fit" },
+    { name: "Wide Leg", slug: "wide-leg" },
+    { name: "Cargo", slug: "cargo" },
+  ];
 
   useEffect(() => {
     const handleScroll = () => {
@@ -91,10 +101,19 @@ const Navbar = () => {
 
         {/* Main navigation */}
         <div className="flex items-center justify-between h-16">
+          {/* Mobile menu button */}
+          <button
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            className={`md:hidden p-2 hover:text-accent transition-colors ${textClasses}`}
+            aria-label="Menu"
+          >
+            {mobileMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+          </button>
+
           {/* Logo */}
           <Link
             to="/"
-            className={`text-2xl font-serif font-semibold tracking-wide ${textClasses}`}
+            className={`text-xl md:text-2xl font-serif font-semibold tracking-wide ${textClasses}`}
           >
             WORTH JEANS
           </Link>
@@ -107,12 +126,38 @@ const Navbar = () => {
             >
               Home
             </Link>
-            <Link
-              to="/collections"
-              className={`text-sm hover:text-accent transition-colors ${textClasses}`}
-            >
-              Collection
-            </Link>
+            
+            {/* Collections Dropdown */}
+            <div className="relative group">
+              <button
+                onMouseEnter={() => setCollectionsOpen(true)}
+                onMouseLeave={() => setCollectionsOpen(false)}
+                className={`text-sm hover:text-accent transition-colors flex items-center gap-1 ${textClasses}`}
+              >
+                Collections
+                <ChevronDown className="h-3 w-3" />
+              </button>
+              
+              {collectionsOpen && (
+                <div
+                  onMouseEnter={() => setCollectionsOpen(true)}
+                  onMouseLeave={() => setCollectionsOpen(false)}
+                  className="absolute top-full left-0 mt-2 w-48 bg-background border border-border rounded-lg shadow-lg py-2 z-50"
+                >
+                  {collectionTypes.map((type) => (
+                    <Link
+                      key={type.slug}
+                      to={`/collections/${type.slug}`}
+                      className="block px-4 py-2 text-sm hover:bg-accent/10 transition-colors"
+                      onClick={() => setCollectionsOpen(false)}
+                    >
+                      {type.name}
+                    </Link>
+                  ))}
+                </div>
+              )}
+            </div>
+
             <Link
               to="/about"
               className={`text-sm hover:text-accent transition-colors ${textClasses}`}
@@ -128,9 +173,10 @@ const Navbar = () => {
           </div>
 
           {/* Icons */}
-          <div className="flex items-center space-x-4">
-            {/* Small search bar */}
+          <div className="flex items-center space-x-2 md:space-x-4">
+            {/* Small search bar - desktop only */}
             {searchOpen && (
+              <div className="hidden md:block relative">
               <div className="relative">
                 <input
                   ref={searchInputRef}
@@ -177,35 +223,29 @@ const Navbar = () => {
                   </div>
                 )}
               </div>
+              </div>
             )}
             
             <button
               onClick={() => setSearchOpen(!searchOpen)}
-              className={`p-2 hover:text-accent transition-colors ${textClasses}`}
+              className={`hidden md:block p-2 hover:text-accent transition-colors ${textClasses}`}
               aria-label="Search"
             >
               {searchOpen ? <X className="h-5 w-5" /> : <Search className="h-5 w-5" />}
             </button>
             <Link
-              to="/auth"
-              className={`p-2 hover:text-accent transition-colors ${textClasses}`}
-              aria-label="Account"
-            >
-              <User className="h-5 w-5" />
-            </Link>
-            <Link
               to="/wishlist"
               className={`p-2 hover:text-accent transition-colors ${textClasses}`}
               aria-label="Wishlist"
             >
-              <Heart className="h-5 w-5" />
+              <Heart className="h-4 w-4 md:h-5 md:w-5" />
             </Link>
             <Link
               to="/cart"
               className={`p-2 hover:text-accent transition-colors relative ${textClasses}`}
               aria-label="Cart"
             >
-              <ShoppingBag className="h-5 w-5" />
+              <ShoppingBag className="h-4 w-4 md:h-5 md:w-5" />
               {cartCount > 0 && (
                 <span className="absolute -top-1 -right-1 bg-accent text-accent-foreground text-xs rounded-full h-4 w-4 flex items-center justify-center">
                   {cartCount}
@@ -214,6 +254,113 @@ const Navbar = () => {
             </Link>
           </div>
         </div>
+
+        {/* Mobile Menu */}
+        {mobileMenuOpen && (
+          <div className="md:hidden border-t border-border">
+            <div className="py-4 space-y-4">
+              {/* Mobile Search */}
+              <div className="px-4">
+                <div className="relative">
+                  <input
+                    type="text"
+                    placeholder="Search products..."
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    className="w-full px-4 py-2 pr-10 text-sm border border-border rounded-full focus:outline-none focus:ring-2 focus:ring-accent bg-background text-foreground"
+                  />
+                  <Search className="absolute right-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                </div>
+                
+                {/* Mobile search results */}
+                {searchQuery.length >= 2 && (
+                  <div className="mt-2 bg-background border border-border rounded-lg shadow-lg max-h-64 overflow-y-auto">
+                    {isSearching ? (
+                      <p className="text-center text-muted-foreground py-3 text-xs">Searching...</p>
+                    ) : searchResults.length > 0 ? (
+                      <div className="py-1">
+                        {searchResults.map((product) => (
+                          <button
+                            key={product.id}
+                            onClick={() => {
+                              handleProductClick(product.id);
+                              setMobileMenuOpen(false);
+                            }}
+                            className="w-full flex items-center gap-2 p-2 hover:bg-accent/10 transition-colors text-left"
+                          >
+                            <img
+                              src={product.image_url || '/placeholder.svg'}
+                              alt={product.name}
+                              className="w-10 h-10 object-cover rounded"
+                            />
+                            <div className="flex-1 min-w-0">
+                              <h3 className="font-medium text-xs truncate">{product.name}</h3>
+                              <p className="text-xs text-muted-foreground truncate">{product.description}</p>
+                              <p className="text-xs font-semibold mt-0.5">₹{product.price}</p>
+                            </div>
+                          </button>
+                        ))}
+                      </div>
+                    ) : (
+                      <p className="text-center text-muted-foreground py-3 text-xs">No products found</p>
+                    )}
+                  </div>
+                )}
+              </div>
+
+              {/* Mobile Navigation Links */}
+              <nav className="flex flex-col space-y-1 px-4">
+                <Link
+                  to="/"
+                  onClick={() => setMobileMenuOpen(false)}
+                  className={`py-3 text-base hover:text-accent transition-colors border-b border-border ${textClasses}`}
+                >
+                  Home
+                </Link>
+                
+                {/* Mobile Collections */}
+                <div className="border-b border-border">
+                  <p className="py-3 text-base font-semibold">Collections</p>
+                  <div className="pl-4 pb-2 space-y-2">
+                    {collectionTypes.map((type) => (
+                      <Link
+                        key={type.slug}
+                        to={`/collections/${type.slug}`}
+                        onClick={() => setMobileMenuOpen(false)}
+                        className={`block py-2 text-sm hover:text-accent transition-colors ${textClasses}`}
+                      >
+                        {type.name}
+                      </Link>
+                    ))}
+                  </div>
+                </div>
+
+                <Link
+                  to="/about"
+                  onClick={() => setMobileMenuOpen(false)}
+                  className={`py-3 text-base hover:text-accent transition-colors border-b border-border ${textClasses}`}
+                >
+                  About Us
+                </Link>
+                <Link
+                  to="/contact"
+                  onClick={() => setMobileMenuOpen(false)}
+                  className={`py-3 text-base hover:text-accent transition-colors border-b border-border ${textClasses}`}
+                >
+                  Contact
+                </Link>
+                <Link
+                  to="/auth"
+                  onClick={() => setMobileMenuOpen(false)}
+                  className={`py-3 text-base hover:text-accent transition-colors flex items-center gap-2 ${textClasses}`}
+                >
+                  <User className="h-5 w-5" />
+                  Account
+                </Link>
+              </nav>
+            </div>
+          </div>
+        )}
       </div>
     </nav>
   );
