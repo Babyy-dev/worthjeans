@@ -6,7 +6,6 @@ import { api } from "@/lib/api";
 export const AdminDashboard = () => {
   const [stats, setStats] = useState({
     totalProducts: 0,
-    totalCategories: 0,
     activeProducts: 0,
     featuredProducts: 0,
   });
@@ -16,14 +15,10 @@ export const AdminDashboard = () => {
   }, []);
 
   const loadStats = async () => {
-    const [products, categories] = await Promise.all([
-      api.get('/products'),
-      api.get('/categories')
-    ]);
+    const products = await api.get('/products');
 
     setStats({
       totalProducts: (products || []).length,
-      totalCategories: (categories || []).length,
       activeProducts: (products || []).filter((p: any) => p.is_active).length,
       featuredProducts: (products || []).filter((p: any) => p.is_featured).length,
     });
@@ -35,12 +30,6 @@ export const AdminDashboard = () => {
       value: stats.totalProducts,
       icon: Package,
       description: "All products in store",
-    },
-    {
-      title: "Categories",
-      value: stats.totalCategories,
-      icon: FolderOpen,
-      description: "Product categories",
     },
     {
       title: "Active Products",

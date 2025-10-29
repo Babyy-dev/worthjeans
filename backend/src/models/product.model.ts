@@ -20,14 +20,14 @@ export const Products = {
   },
   async create(id: string, data: any) {
     await query(
-      'INSERT INTO products (id, name, slug, description, price, original_price, stock, category_id, image_url, images, is_featured, is_active) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
-      [id, data.name, data.slug, data.description || null, data.price, data.original_price || null, data.stock, data.category_id || null, data.image_url || null, data.images ? JSON.stringify(data.images) : null, data.is_featured ? 1 : 0, data.is_active ? 1 : 0]
+      'INSERT INTO products (id, name, slug, description, price, original_price, stock, image_url, images, is_featured, is_active) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
+      [id, data.name, data.slug, data.description || null, data.price, data.original_price || null, data.stock, data.image_url || null, data.images ? JSON.stringify(data.images) : null, data.is_featured ? 1 : 0, data.is_active ? 1 : 0]
     );
   },
   async update(id: string, data: any) {
     await query(
-      'UPDATE products SET name=?, slug=?, description=?, price=?, original_price=?, stock=?, category_id=?, image_url=?, images=?, is_featured=?, is_active=? WHERE id=?',
-      [data.name, data.slug, data.description || null, data.price, data.original_price || null, data.stock, data.category_id || null, data.image_url || null, data.images ? JSON.stringify(data.images) : null, data.is_featured ? 1 : 0, data.is_active ? 1 : 0, id]
+      'UPDATE products SET name=?, slug=?, description=?, price=?, original_price=?, stock=?, image_url=?, images=?, is_featured=?, is_active=? WHERE id=?',
+      [data.name, data.slug, data.description || null, data.price, data.original_price || null, data.stock, data.image_url || null, data.images ? JSON.stringify(data.images) : null, data.is_featured ? 1 : 0, data.is_active ? 1 : 0, id]
     );
   },
   async remove(id: string) {

@@ -7,7 +7,6 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Switch } from "@/components/ui/switch";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useToast } from "@/hooks/use-toast";
 import { X, Upload, Loader2 } from "lucide-react";
@@ -19,7 +18,6 @@ const productSchema = z.object({
   description: z.string().optional(),
   price: z.string().min(1, "Price is required"),
   original_price: z.string().optional(),
-  category_id: z.string().optional(),
   image_url: z.string().url().optional().or(z.literal("")),
   images: z.array(z.string().url()).optional(),
   stock: z.string().min(0),
@@ -29,18 +27,12 @@ const productSchema = z.object({
 
 type ProductFormData = z.infer<typeof productSchema>;
 
-interface Category {
-  id: string;
-  name: string;
-}
-
 interface ProductFormProps {
   product: any;
   onClose: () => void;
 }
 
 export const ProductForm = ({ product, onClose }: ProductFormProps) => {
-  const [categories, setCategories] = useState<Category[]>([]);
   const [additionalImages, setAdditionalImages] = useState<string[]>(product?.images || []);
   const [newImageUrl, setNewImageUrl] = useState("");
   const [uploading, setUploading] = useState(false);
@@ -54,7 +46,6 @@ export const ProductForm = ({ product, onClose }: ProductFormProps) => {
       description: product?.description || "",
       price: product?.price?.toString() || "",
       original_price: product?.original_price?.toString() || "",
-      category_id: product?.category_id || "",
       image_url: product?.image_url || "",
       images: product?.images || [],
       stock: product?.stock?.toString() || "0",
@@ -62,15 +53,6 @@ export const ProductForm = ({ product, onClose }: ProductFormProps) => {
       is_active: product?.is_active || true,
     },
   });
-
-  useEffect(() => {
-    loadCategories();
-  }, []);
-
-  const loadCategories = async () => {
-    const data = await api.get('/categories');
-    setCategories(data || []);
-  };
 
   const uploadImage = async (file: File): Promise<string | null> => {
     try {
@@ -132,7 +114,6 @@ export const ProductForm = ({ product, onClose }: ProductFormProps) => {
       price: parseFloat(data.price),
       original_price: data.original_price ? parseFloat(data.original_price) : null,
       stock: parseInt(data.stock),
-      category_id: data.category_id || null,
       image_url: data.image_url || null,
       images: additionalImages.length > 0 ? additionalImages : null,
       is_featured: data.is_featured,
@@ -215,31 +196,6 @@ export const ProductForm = ({ product, onClose }: ProductFormProps) => {
                     <FormControl>
                       <Input type="number" step="0.01" placeholder="0.00" {...field} />
                     </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-
-              <FormField
-                control={form.control}
-                name="category_id"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Category</FormLabel>
-                    <Select onValueChange={field.onChange} defaultValue={field.value}>
-                      <FormControl>
-                        <SelectTrigger>
-                          <SelectValue placeholder="Select a category" />
-                        </SelectTrigger>
-                      </FormControl>
-                      <SelectContent>
-                        {categories.map((category) => (
-                          <SelectItem key={category.id} value={category.id}>
-                            {category.name}
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
                     <FormMessage />
                   </FormItem>
                 )}

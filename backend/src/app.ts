@@ -9,7 +9,6 @@ import fs from 'fs';
 
 import authRoutes from './routes/auth.routes.js';
 import productRoutes from './routes/products.routes.js';
-import categoryRoutes from './routes/categories.routes.js';
 import wishlistRoutes from './routes/wishlist.routes.js';
 import adminRoutes from './routes/admin.routes.js';
 import uploadRoutes from './routes/upload.routes.js';
@@ -36,7 +35,6 @@ app.use('/uploads', express.static(uploadsDir, { maxAge: '7d', immutable: true }
 
 app.use('/api/auth', authRoutes);
 app.use('/api/products', productRoutes);
-app.use('/api/categories', categoryRoutes);
 app.use('/api/wishlist', wishlistRoutes);
 app.use('/api/admin', adminRoutes);
 app.use('/api/upload', uploadRoutes);

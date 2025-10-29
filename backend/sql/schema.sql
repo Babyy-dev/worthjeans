@@ -35,15 +35,6 @@ CREATE TABLE IF NOT EXISTS user_activity (
   CONSTRAINT fk_user_activity_user FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
 ) ENGINE=InnoDB;
 
-CREATE TABLE IF NOT EXISTS categories (
-  id CHAR(36) NOT NULL PRIMARY KEY,
-  name VARCHAR(100) NOT NULL,
-  slug VARCHAR(100) NOT NULL UNIQUE,
-  description TEXT NULL,
-  image_url VARCHAR(512) NULL,
-  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-) ENGINE=InnoDB;
-
 CREATE TABLE IF NOT EXISTS products (
   id CHAR(36) NOT NULL PRIMARY KEY,
   name VARCHAR(100) NOT NULL,
@@ -52,14 +43,11 @@ CREATE TABLE IF NOT EXISTS products (
   price DECIMAL(10,2) NOT NULL,
   original_price DECIMAL(10,2) NULL,
   stock INT NOT NULL DEFAULT 0,
-  category_id CHAR(36) NULL,
   image_url VARCHAR(512) NULL,
   images JSON NULL,
   is_featured TINYINT(1) NOT NULL DEFAULT 0,
   is_active TINYINT(1) NOT NULL DEFAULT 1,
-  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-  INDEX idx_products_category (category_id),
-  CONSTRAINT fk_products_category FOREIGN KEY (category_id) REFERENCES categories(id) ON DELETE SET NULL
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB;
 
 CREATE TABLE IF NOT EXISTS wishlist (

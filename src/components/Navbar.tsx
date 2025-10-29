@@ -115,55 +115,6 @@ const Navbar = () => {
               </NavigationMenuItem>
 
               <NavigationMenuItem>
-                <NavigationMenuTrigger className={`text-sm hover:text-accent transition-colors bg-transparent ${textClasses}`}>
-                  Category
-                </NavigationMenuTrigger>
-                <NavigationMenuContent>
-                  <ul className="grid w-[200px] gap-3 p-4 bg-background">
-                    <li>
-                      <NavigationMenuLink asChild>
-                        <Link
-                          to="/category"
-                          className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
-                        >
-                          <div className="text-sm font-medium leading-none">All Categories</div>
-                          <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
-                            View all categories
-                          </p>
-                        </Link>
-                      </NavigationMenuLink>
-                    </li>
-                    <li>
-                      <NavigationMenuLink asChild>
-                        <Link
-                          to="/collections"
-                          className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
-                        >
-                          <div className="text-sm font-medium leading-none">Dresses</div>
-                          <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
-                            Elegant dresses
-                          </p>
-                        </Link>
-                      </NavigationMenuLink>
-                    </li>
-                    <li>
-                      <NavigationMenuLink asChild>
-                        <Link
-                          to="/collections"
-                          className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
-                        >
-                          <div className="text-sm font-medium leading-none">Co-ords & Sets</div>
-                          <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
-                            Coordinated outfits
-                          </p>
-                        </Link>
-                      </NavigationMenuLink>
-                    </li>
-                  </ul>
-                </NavigationMenuContent>
-              </NavigationMenuItem>
-
-              <NavigationMenuItem>
                 <Link to="/about" className={`text-sm hover:text-accent transition-colors px-3 py-2 ${textClasses}`}>
                   About Us
                 </Link>

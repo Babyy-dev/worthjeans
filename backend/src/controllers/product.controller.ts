@@ -36,7 +36,6 @@ export const ProductController = {
     body('price').isFloat({ min: 0 }),
     body('original_price').optional({ nullable: true }).isFloat({ min: 0 }),
     body('stock').isInt({ min: 0 }),
-    body('category_id').optional({ nullable: true }).isString(),
     body('image_url').optional({ nullable: true }).isString(),
     body('images').optional({ nullable: true }).isArray(),
     body('is_featured').isBoolean(),

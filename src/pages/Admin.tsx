@@ -5,7 +5,6 @@ import { api } from "@/lib/api";
 import { AdminSidebar } from "@/components/admin/AdminSidebar";
 import { AdminDashboard } from "@/components/admin/AdminDashboard";
 import { AdminProducts } from "@/components/admin/AdminProducts";
-import { AdminCategories } from "@/components/admin/AdminCategories";
 import { AdminAnalytics } from "@/components/admin/AdminAnalytics";
 import { AdminUsers } from "@/components/admin/AdminUsers";
 import { Loader2 } from "lucide-react";
@@ -57,7 +56,6 @@ const Admin = () => {
             <TabsList className="hidden">
               <TabsTrigger value="dashboard">Dashboard</TabsTrigger>
               <TabsTrigger value="products">Products</TabsTrigger>
-              <TabsTrigger value="categories">Categories</TabsTrigger>
               <TabsTrigger value="analytics">Analytics</TabsTrigger>
               <TabsTrigger value="users">Users</TabsTrigger>
             </TabsList>
@@ -68,10 +66,6 @@ const Admin = () => {
 
             <TabsContent value="products" className="space-y-6">
               <AdminProducts />
-            </TabsContent>
-
-            <TabsContent value="categories" className="space-y-6">
-              <AdminCategories />
             </TabsContent>
 
             <TabsContent value="analytics" className="space-y-6">
