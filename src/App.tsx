@@ -7,7 +7,6 @@ import Index from "./pages/Index";
 import Collections from "./pages/Collections";
 import ProductDetail from "./pages/ProductDetail";
 import Contact from "./pages/Contact";
-import ProductDetail from "./pages/ProductDetail";
 import Cart from "./pages/Cart";
 import Auth from "./pages/Auth";
 import Wishlist from "./pages/Wishlist";

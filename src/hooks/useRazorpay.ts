@@ -20,7 +20,7 @@ export const useRazorpay = () => {
     amount,
     currency = "INR",
     name,
-    description = "Purchase from Élégance",
+    description = "Purchase from Worth Jeans",
     onSuccess,
     onFailure,
   }: RazorpayOptions) => {
@@ -31,7 +31,7 @@ export const useRazorpay = () => {
       key: RAZORPAY_KEY,
       amount: amount * 100, // Razorpay expects amount in paise
       currency,
-      name: "Élégance",
+      name: "Worth Jeans",
       description,
       image: "/favicon.ico",
       handler: function (response: any) {

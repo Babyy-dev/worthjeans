@@ -7,10 +7,10 @@ const Footer = () => {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
           {/* Brand */}
           <div className="col-span-1 md:col-span-2">
-            <h3 className="text-2xl font-serif font-semibold mb-4">Élégance</h3>
+            <h3 className="text-2xl font-serif font-semibold mb-4">Worth Jeans</h3>
             <p className="text-muted-foreground mb-6 max-w-md">
-              Discover timeless elegance with our curated collection of premium women's fashion. 
-              Each piece is designed to make you feel confident and beautiful.
+              Premium quality jeans and fashion for everyone. 
+              Each piece is designed to deliver comfort, style, and lasting value.
             </p>
             <div className="flex items-center gap-4">
               <a href="#" className="p-2 hover:text-accent transition-colors" aria-label="Facebook">
@@ -81,7 +81,7 @@ const Footer = () => {
         </div>
         
         <div className="pt-8 border-t border-border text-center text-sm text-muted-foreground">
-          <p>&copy; 2025 Élégance. All rights reserved.</p>
+          <p>&copy; 2025 Worth Jeans. All rights reserved.</p>
         </div>
       </div>
     </footer>
