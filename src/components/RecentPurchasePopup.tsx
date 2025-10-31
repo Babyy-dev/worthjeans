@@ -141,12 +141,12 @@ export default function RecentPurchasePopup() {
   const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
-    // Show first notification after 3 seconds
+    // Show first notification after 2 seconds
     const initialDelay = setTimeout(() => {
       setCurrentPurchase(mockPurchases[0]);
       setIsVisible(true);
       setPurchaseIndex(1);
-    }, 3000);
+    }, 2000);
 
     return () => clearTimeout(initialDelay);
   }, []);
@@ -154,23 +154,20 @@ export default function RecentPurchasePopup() {
   useEffect(() => {
     if (!isVisible) return;
 
-    // Hide current notification after 4 seconds
+    // Hide notification after 4 seconds
     const hideTimer = setTimeout(() => {
       setIsVisible(false);
+      
+      // Wait 1 second before showing next (total 5 seconds cycle)
+      setTimeout(() => {
+        const nextIndex = purchaseIndex % mockPurchases.length;
+        setCurrentPurchase(mockPurchases[nextIndex]);
+        setIsVisible(true);
+        setPurchaseIndex(nextIndex + 1);
+      }, 1000);
     }, 4000);
 
-    // Show next notification after 5 seconds (1 second gap)
-    const nextTimer = setTimeout(() => {
-      const nextIndex = purchaseIndex % mockPurchases.length;
-      setCurrentPurchase(mockPurchases[nextIndex]);
-      setIsVisible(true);
-      setPurchaseIndex(nextIndex + 1);
-    }, 5000);
-
-    return () => {
-      clearTimeout(hideTimer);
-      clearTimeout(nextTimer);
-    };
+    return () => clearTimeout(hideTimer);
   }, [isVisible, purchaseIndex]);
 
   const handleClose = () => {

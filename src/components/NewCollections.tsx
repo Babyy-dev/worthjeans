@@ -1,37 +1,50 @@
-import { useState, useEffect } from "react";
-import { motion } from "framer-motion";
-import ProductCard from "./ProductCard";
-import { api } from "@/lib/api";
+import { motion } from 'framer-motion';
+import ProductCard from './ProductCard';
 
-const BestSellers = () => {
-  const [products, setProducts] = useState<any[]>([]);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    const fetchFeaturedProducts = async () => {
-      try {
-        const data = await api.get("/products?is_active=1&is_featured=1&limit=4");
-        setProducts(data);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchFeaturedProducts();
-  }, []);
-
-  if (loading) {
-    return (
-      <section className="py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
-        <div className="text-center">Loading...</div>
-      </section>
-    );
+const demoProducts = [
+  {
+    id: 'demo-1',
+    name: 'Classic Slim Fit Jeans',
+    slug: 'classic-slim-fit-jeans',
+    category: 'narrow-fit',
+    description: 'Our best-selling slim fit jeans crafted from premium stretch denim.',
+    price: 2499,
+    original_price: 3999,
+    image_url: 'https://images.unsplash.com/photo-1542272604-787c3835535d?w=800&h=1000&fit=crop',
+  },
+  {
+    id: 'demo-2',
+    name: 'Vintage Straight Leg Denim',
+    slug: 'vintage-straight-leg-denim',
+    category: 'straight-fit',
+    description: 'Timeless straight leg jeans with a relaxed fit.',
+    price: 2799,
+    original_price: 4299,
+    image_url: 'https://images.unsplash.com/photo-1541099649105-f69ad21f3246?w=800&h=1000&fit=crop',
+  },
+  {
+    id: 'demo-3',
+    name: 'Wide Leg Palazzo Jeans',
+    slug: 'wide-leg-palazzo-jeans',
+    category: 'wide-leg',
+    description: 'Flowing wide-leg jeans that combine comfort with sophistication.',
+    price: 2999,
+    original_price: 4599,
+    image_url: 'https://images.unsplash.com/photo-1584370848010-d7fe6bc767ec?w=800&h=1000&fit=crop',
+  },
+  {
+    id: 'demo-4',
+    name: 'Urban Cargo Utility Jeans',
+    slug: 'urban-cargo-utility-jeans',
+    category: 'cargo',
+    description: 'Rugged cargo jeans with multiple utility pockets.',
+    price: 3299,
+    original_price: 4999,
+    image_url: 'https://images.unsplash.com/photo-1473966968600-fa801b869a1a?w=800&h=1000&fit=crop',
   }
+];
 
-  if (products.length === 0) {
-    return null;
-  }
-
+export default function NewCollections() {
   return (
     <section className="py-20 md:py-32 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
       <motion.div
@@ -48,7 +61,7 @@ const BestSellers = () => {
           transition={{ duration: 0.6, delay: 0.2 }}
           className="text-sm font-medium tracking-wider uppercase text-muted-foreground"
         >
-          Handpicked Favorites
+          New Arrivals
         </motion.p>
         <motion.h2
           initial={{ opacity: 0, y: 20 }}
@@ -57,7 +70,7 @@ const BestSellers = () => {
           transition={{ duration: 0.8, delay: 0.3 }}
           className="text-4xl md:text-5xl lg:text-6xl font-serif font-light tracking-tight"
         >
-          Best Sellers
+          New Collections
         </motion.h2>
         <motion.p
           initial={{ opacity: 0 }}
@@ -66,12 +79,12 @@ const BestSellers = () => {
           transition={{ duration: 0.8, delay: 0.4 }}
           className="text-base md:text-lg text-muted-foreground max-w-2xl mx-auto"
         >
-          Our most-loved styles are here. Crafted with care, worn with confidence.
+          Discover our latest styles. Fresh designs, timeless quality.
         </motion.p>
       </motion.div>
       
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
-        {products.map((product, index) => (
+        {demoProducts.map((product, index) => (
           <motion.div
             key={product.id}
             initial={{ opacity: 0, y: 40 }}
@@ -89,6 +102,4 @@ const BestSellers = () => {
       </div>
     </section>
   );
-};
-
-export default BestSellers;
+}

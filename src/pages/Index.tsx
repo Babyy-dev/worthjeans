@@ -1,6 +1,8 @@
 import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
-import BestSellers from "@/components/BestSellers";
+import NewCollections from "@/components/NewCollections";
+import DeskToDinner from "@/components/DeskToDinner";
+import CollectionSections from "@/components/CollectionSections";
 import Footer from "@/components/Footer";
 import { SalePopup } from "@/components/SalePopup";
 import { FloatingButtons } from "@/components/FloatingButtons";
@@ -12,7 +14,9 @@ const Index = () => {
       <Navbar />
       <main>
         <Hero />
-        <BestSellers />
+        <NewCollections />
+        <DeskToDinner />
+        <CollectionSections />
       </main>
       <Footer />
       <FloatingButtons />

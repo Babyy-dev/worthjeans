@@ -1,5 +1,4 @@
 import { Heart, ShoppingBag } from "lucide-react";
-import { Badge } from "@/components/ui/badge";
 import { Link } from "react-router-dom";
 import { useWishlist } from "@/hooks/useWishlist";
 import { useCart } from "@/hooks/useCart";
@@ -25,6 +24,7 @@ const ProductCard = ({ id, image, image_url, images, name, price, original_price
   const { addToCart } = useCart();
   
   const isInWishlist = wishlistItems.includes(productId);
+  const showSaleBadge = productOriginalPrice && productOriginalPrice > price;
 
   const handleWishlistClick = (e: React.MouseEvent) => {
     e.preventDefault();
@@ -45,49 +45,54 @@ const ProductCard = ({ id, image, image_url, images, name, price, original_price
   
   return (
     <Link to={`/product/${productId}`} className="group cursor-pointer block">
-      <div className="relative aspect-[3/4] overflow-hidden rounded-sm mb-4 bg-muted">
+      <div className="relative aspect-[3/4] overflow-hidden bg-muted">
         <img 
           src={productImage}
           alt={name}
           className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
         />
         
-        {/* Sale badge */}
-        {isOnSale && (
-          <Badge className="absolute top-4 left-4 bg-destructive text-destructive-foreground">
-            Sale
-          </Badge>
+        {/* ON SALE badge - DuJour style */}
+        {showSaleBadge && (
+          <div className="absolute top-3 left-3 bg-black text-white px-3 py-1.5 text-xs font-medium tracking-wider uppercase">
+            ON SALE
+          </div>
         )}
         
-        {/* Wishlist button */}
+        {/* Wishlist button - DuJour style */}
         <button 
           onClick={handleWishlistClick}
-          className="absolute top-4 right-4 p-2 bg-background/80 backdrop-blur-sm rounded-full transition-all duration-300 hover:bg-background"
+          className="absolute top-3 right-3 p-2 transition-all duration-300 hover:scale-110"
           aria-label={isInWishlist ? "Remove from wishlist" : "Add to wishlist"}
         >
           <Heart 
-            className={`h-4 w-4 transition-colors ${isInWishlist ? "fill-red-500 text-red-500" : ""}`} 
+            className={`h-5 w-5 transition-colors ${
+              isInWishlist 
+                ? "fill-red-500 text-red-500" 
+                : "text-white stroke-[1.5] drop-shadow-md"
+            }`} 
           />
         </button>
         
-        {/* Quick shop button */}
-        <Button 
-          onClick={handleQuickShop}
-          className="absolute bottom-4 left-4 right-4 bg-foreground text-background py-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300 hover:bg-foreground/90"
-        >
-          <ShoppingBag className="h-4 w-4 mr-2" />
-          Quick Add
-        </Button>
+        {/* Quick shop button - appears on hover */}
+        <div className="absolute inset-x-0 bottom-0 p-4 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+          <Button 
+            onClick={handleQuickShop}
+            className="w-full bg-white text-black hover:bg-white/90 font-medium"
+          >
+            Quick shop
+          </Button>
+        </div>
       </div>
       
-      <div className="space-y-2">
-        <h3 className="text-sm font-medium group-hover:text-accent transition-colors">
+      <div className="mt-3 space-y-1">
+        <h3 className="text-sm font-medium group-hover:underline transition-all">
           {name}
         </h3>
-        <div className="flex items-center gap-2">
+        <div className="flex items-baseline gap-2">
           <span className="text-sm font-semibold">Rs. {price.toLocaleString()}</span>
-          {productOriginalPrice && (
-            <span className="text-sm text-muted-foreground line-through">
+          {productOriginalPrice && productOriginalPrice > price && (
+            <span className="text-xs text-muted-foreground line-through">
               Rs. {productOriginalPrice.toLocaleString()}
             </span>
           )}
