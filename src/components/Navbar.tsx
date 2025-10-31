@@ -236,6 +236,13 @@ const Navbar = () => {
               {searchOpen ? <X className="h-5 w-5" /> : <Search className="h-5 w-5" />}
             </button>
             <Link
+              to="/auth"
+              className={`hidden md:block p-2 hover:text-accent transition-colors ${textClasses}`}
+              aria-label="Account"
+            >
+              <User className="h-5 w-5" />
+            </Link>
+            <Link
               to="/wishlist"
               className={`p-2 hover:text-accent transition-colors ${textClasses}`}
               aria-label="Wishlist"
