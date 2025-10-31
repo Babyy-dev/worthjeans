@@ -23,48 +23,27 @@ export const SalePopup = () => {
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <DialogContent className="max-w-[320px] sm:max-w-md border-2 border-primary/20 p-4 sm:p-6">
-        <DialogHeader className="space-y-3 sm:space-y-4 pt-2 sm:pt-4">
-          <div className="space-y-1.5 sm:space-y-2 text-center">
-            {/* <p className="text-xs sm:text-sm font-medium text-primary uppercase tracking-wider">
-              Grab your Comfort here!!
-            </p> */}
-            {/* <DialogTitle className="text-2xl sm:text-3xl md:text-4xl font-bold">
-              Ge
-            </DialogTitle> */}
-            <DialogDescription className="text-sm sm:text-base">
-              Abhi kuch nhi aaraha dimag mai kya likhu aap bata dena kya likha
-              jaye!!
+      <DialogContent className="max-w-[340px] sm:max-w-[500px] border-none shadow-2xl rounded-3xl p-6 sm:p-8">
+        <div className="space-y-6 sm:space-y-8">
+          {/* Main Title */}
+          <div className="text-center space-y-3 sm:space-y-4">
+            <DialogTitle className="text-2xl sm:text-3xl md:text-4xl font-bold text-foreground tracking-tight uppercase">
+              CHRISTMAS SALE IS LIVE
+            </DialogTitle>
+            <DialogDescription className="text-sm sm:text-base text-muted-foreground leading-relaxed px-2">
+              Flat 100% Off on all the products. Sign up and get access to
+              exclusive member benefits.
             </DialogDescription>
           </div>
-        </DialogHeader>
 
-        <div className="space-y-3 sm:space-y-4 py-3 sm:py-4">
-          {/* <div className="bg-muted/50 rounded-lg p-3 sm:p-4 text-center">
-            <p className="text-xl sm:text-2xl font-bold text-primary">WELCOME30</p>
-            <p className="text-[10px] sm:text-xs text-muted-foreground mt-1">
-              Valid on all products
-            </p>
-          </div> */}
-
-          <div className="flex flex-col gap-2">
-            <Button
-              onClick={() => setOpen(false)}
-              className="w-full text-sm sm:text-base"
-              size="default"
-              asChild
-            >
-              <Link to="/collections">Shop Now</Link>
-            </Button>
-            {/* <Button
-              onClick={() => setOpen(false)}
-              variant="ghost"
-              className="w-full text-sm sm:text-base"
-              size="sm"
-            >
-              Maybe Later
-            </Button> */}
-          </div>
+          {/* Shop Now Button */}
+          <Button
+            onClick={() => setOpen(false)}
+            className="w-full text-sm sm:text-base font-semibold py-5 sm:py-6 rounded-xl bg-foreground text-background hover:bg-foreground/90 transition-all"
+            asChild
+          >
+            <Link to="/collections">Shop Now</Link>
+          </Button>
         </div>
       </DialogContent>
     </Dialog>
