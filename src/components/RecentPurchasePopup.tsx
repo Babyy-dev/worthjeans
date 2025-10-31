@@ -154,18 +154,18 @@ export default function RecentPurchasePopup() {
   useEffect(() => {
     if (!isVisible) return;
 
-    // Hide notification after 4 seconds
+    // Hide notification after 8 seconds
     const hideTimer = setTimeout(() => {
       setIsVisible(false);
       
-      // Wait 1 second before showing next (total 5 seconds cycle)
+      // Wait 2 seconds before showing next (total 10 seconds cycle)
       setTimeout(() => {
         const nextIndex = purchaseIndex % mockPurchases.length;
         setCurrentPurchase(mockPurchases[nextIndex]);
         setIsVisible(true);
         setPurchaseIndex(nextIndex + 1);
-      }, 1000);
-    }, 4000);
+      }, 2000);
+    }, 8000);
 
     return () => clearTimeout(hideTimer);
   }, [isVisible, purchaseIndex]);
@@ -182,12 +182,12 @@ export default function RecentPurchasePopup() {
           animate={{ opacity: 1, x: 0, y: 0 }}
           exit={{ opacity: 0, x: -100 }}
           transition={{ type: 'spring', stiffness: 300, damping: 30 }}
-          className="fixed bottom-6 left-6 z-50 max-w-sm"
+          className="fixed bottom-4 left-4 sm:bottom-6 sm:left-6 z-50 max-w-[280px] sm:max-w-sm"
         >
           <div className="bg-white shadow-2xl rounded-lg overflow-hidden border border-gray-200">
-            <div className="flex items-center gap-3 p-4">
+            <div className="flex items-center gap-2 sm:gap-3 p-2.5 sm:p-4">
               {/* Product Image */}
-              <div className="flex-shrink-0 w-16 h-16 rounded-md overflow-hidden bg-gray-100">
+              <div className="flex-shrink-0 w-12 h-12 sm:w-16 sm:h-16 rounded-md overflow-hidden bg-gray-100">
                 <img
                   src={currentPurchase.productImage}
                   alt={currentPurchase.productName}
@@ -197,22 +197,22 @@ export default function RecentPurchasePopup() {
 
               {/* Content */}
               <div className="flex-1 min-w-0">
-                <div className="flex items-start gap-2">
-                  <div className="flex-shrink-0 w-6 h-6 bg-green-500 rounded-full flex items-center justify-center mt-0.5">
-                    <ShoppingBag className="w-3.5 h-3.5 text-white" />
+                <div className="flex items-start gap-1.5 sm:gap-2">
+                  <div className="flex-shrink-0 w-5 h-5 sm:w-6 sm:h-6 bg-green-500 rounded-full flex items-center justify-center mt-0.5">
+                    <ShoppingBag className="w-2.5 h-2.5 sm:w-3.5 sm:h-3.5 text-white" />
                   </div>
                   <div className="flex-1">
-                    <p className="text-xs text-gray-500 mb-0.5">
+                    <p className="text-[10px] sm:text-xs text-gray-500 mb-0.5">
                       {currentPurchase.timeAgo}
                     </p>
-                    <p className="text-sm font-medium text-gray-900 line-clamp-1">
+                    <p className="text-xs sm:text-sm font-medium text-gray-900 line-clamp-1">
                       {currentPurchase.customerName}
                     </p>
-                    <p className="text-xs text-gray-600 line-clamp-1">
+                    <p className="text-[10px] sm:text-xs text-gray-600 line-clamp-1">
                       purchased <span className="font-medium">{currentPurchase.productName}</span>
                     </p>
                     {currentPurchase.location && (
-                      <p className="text-xs text-gray-400 mt-0.5">
+                      <p className="text-[10px] sm:text-xs text-gray-400 mt-0.5">
                         📍 {currentPurchase.location}
                       </p>
                     )}
@@ -223,11 +223,11 @@ export default function RecentPurchasePopup() {
               {/* Close button */}
               <button
                 onClick={handleClose}
-                className="flex-shrink-0 text-gray-400 hover:text-gray-600 transition-colors"
+                className="flex-shrink-0 text-gray-400 hover:text-gray-600 transition-colors p-1"
                 aria-label="Close notification"
               >
                 <svg
-                  className="w-4 h-4"
+                  className="w-3 h-3 sm:w-4 sm:h-4"
                   fill="none"
                   strokeLinecap="round"
                   strokeLinejoin="round"
@@ -244,7 +244,7 @@ export default function RecentPurchasePopup() {
             <motion.div
               initial={{ width: '100%' }}
               animate={{ width: '0%' }}
-              transition={{ duration: 4, ease: 'linear' }}
+              transition={{ duration: 8, ease: 'linear' }}
               className="h-1 bg-black"
             />
           </div>

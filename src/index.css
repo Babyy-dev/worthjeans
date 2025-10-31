@@ -176,15 +176,15 @@ All colors MUST be HSL.
   
   /* Hero section typography adjustments */
   .hero-title-mobile {
-    font-size: 1.75rem;
-    line-height: 2.125rem;
-    margin-bottom: 1rem;
+    font-size: 1.5rem;
+    line-height: 1.875rem;
+    margin-bottom: 0.875rem;
   }
   
   .hero-description-mobile {
-    font-size: 0.9375rem;
-    line-height: 1.5rem;
-    margin-bottom: 1.5rem;
+    font-size: 0.875rem;
+    line-height: 1.375rem;
+    margin-bottom: 1.25rem;
   }
   
   /* Better button sizing on mobile */
@@ -199,15 +199,15 @@ All colors MUST be HSL.
 @media (max-width: 480px) {
   /* Extra small devices - even more compact hero */
   .hero-title-mobile {
-    font-size: 1.5rem;
-    line-height: 1.875rem;
+    font-size: 1.375rem;
+    line-height: 1.75rem;
     margin-bottom: 0.75rem;
   }
   
   .hero-description-mobile {
-    font-size: 0.875rem;
-    line-height: 1.375rem;
-    margin-bottom: 1.25rem;
+    font-size: 0.8125rem;
+    line-height: 1.25rem;
+    margin-bottom: 1rem;
   }
 }
 
