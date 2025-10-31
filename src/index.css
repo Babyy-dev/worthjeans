@@ -149,3 +149,104 @@ All colors MUST be HSL.
     animation: slide-down 0.3s ease-out;
   }
 }
+
+/* Mobile Responsive Improvements */
+@media (max-width: 640px) {
+  /* Larger navbar touch targets on mobile */
+  nav button,
+  nav a {
+    min-height: 48px;
+    min-width: 48px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  /* Adjust navbar padding for better spacing */
+  nav .flex.items-center.space-x-2 {
+    gap: 0.25rem;
+  }
+  
+  /* Make mobile menu items more touchable */
+  .mobile-menu-link {
+    min-height: 52px;
+    padding: 0.875rem 1rem;
+    font-size: 1.0625rem;
+  }
+  
+  /* Hero section typography adjustments */
+  .hero-title-mobile {
+    font-size: 1.75rem;
+    line-height: 2.125rem;
+    margin-bottom: 1rem;
+  }
+  
+  .hero-description-mobile {
+    font-size: 0.9375rem;
+    line-height: 1.5rem;
+    margin-bottom: 1.5rem;
+  }
+  
+  /* Better button sizing on mobile */
+  .hero-button-mobile {
+    padding: 0.75rem 2rem;
+    font-size: 1rem;
+    width: 100%;
+    max-width: 18rem;
+  }
+}
+
+@media (max-width: 480px) {
+  /* Extra small devices - even more compact hero */
+  .hero-title-mobile {
+    font-size: 1.5rem;
+    line-height: 1.875rem;
+    margin-bottom: 0.75rem;
+  }
+  
+  .hero-description-mobile {
+    font-size: 0.875rem;
+    line-height: 1.375rem;
+    margin-bottom: 1.25rem;
+  }
+}
+
+/* Product grid and section improvements for mobile */
+@media (max-width: 640px) {
+  /* Better section titles on mobile */
+  section h2 {
+    font-size: 2rem;
+    line-height: 2.25rem;
+  }
+  
+  section p {
+    font-size: 0.9375rem;
+    line-height: 1.5rem;
+  }
+  
+  /* Tighter spacing on small screens */
+  section.py-20 {
+    padding-top: 3rem;
+    padding-bottom: 3rem;
+  }
+  
+  /* Product grids with comfortable gaps */
+  .grid.gap-6 {
+    gap: 1rem;
+  }
+  
+  /* Footer better stacking */
+  footer .grid {
+    gap: 2rem;
+  }
+  
+  footer h3 {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+  }
+  
+  footer h4 {
+    font-size: 1.125rem;
+    margin-bottom: 0.875rem;
+  }
+}

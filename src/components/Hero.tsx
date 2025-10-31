@@ -21,11 +21,11 @@ const Hero = () => {
       {/* Content */}
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-left">
         <div className="max-w-xl">
-          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-serif font-semibold mb-4 sm:mb-6 animate-fade-in text-white leading-tight">
+          <h1 className="hero-title-mobile sm:text-4xl md:text-5xl lg:text-7xl font-serif font-semibold sm:mb-6 animate-fade-in text-white leading-tight">
             Worth Jeans - Style with Comfort
           </h1>
           <p
-            className="text-base sm:text-lg md:text-xl text-gray-200 mb-6 sm:mb-8 animate-fade-in"
+            className="hero-description-mobile sm:text-lg md:text-xl text-gray-200 sm:mb-8 animate-fade-in"
             style={{ animationDelay: "0.2s" }}
           >
             Premium quality jeans and fashion that deliver comfort, style, and
@@ -33,7 +33,7 @@ const Hero = () => {
           </p>
           <Button
             size="lg"
-            className="bg-foreground text-background hover:bg-foreground/90 transition-all duration-300 animate-fade-in w-full sm:w-auto"
+            className="hero-button-mobile sm:max-w-none bg-foreground text-background hover:bg-foreground/90 transition-all duration-300 animate-fade-in sm:w-auto"
             style={{ animationDelay: "0.4s" }}
             asChild
           >

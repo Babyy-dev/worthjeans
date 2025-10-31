@@ -379,7 +379,7 @@ const Navbar = () => {
                 <Link
                   to="/"
                   onClick={() => setMobileMenuOpen(false)}
-                  className="py-3 text-base text-black hover:text-gray-600 transition-colors border-b border-gray-200"
+                  className="mobile-menu-link text-black hover:text-gray-600 transition-colors border-b border-gray-200"
                 >
                   Home
                 </Link>
@@ -390,7 +390,7 @@ const Navbar = () => {
                     onClick={() =>
                       setMobileCollectionsOpen(!mobileCollectionsOpen)
                     }
-                    className="w-full flex items-center justify-between py-3 text-base font-semibold text-black hover:text-gray-600 transition-colors"
+                    className="mobile-menu-link w-full flex items-center justify-between font-semibold text-black hover:text-gray-600 transition-colors"
                   >
                     <span>Collections</span>
                     <ChevronRight
@@ -406,7 +406,7 @@ const Navbar = () => {
                           key={type.slug}
                           to={`/collections/${type.slug}`}
                           onClick={() => setMobileMenuOpen(false)}
-                          className="block py-2 text-sm text-black hover:text-gray-600 transition-colors"
+                          className="block py-3 px-2 text-sm text-black hover:text-gray-600 transition-colors min-h-[44px] flex items-center"
                         >
                           {type.name}
                         </Link>
@@ -418,21 +418,21 @@ const Navbar = () => {
                 <Link
                   to="/about"
                   onClick={() => setMobileMenuOpen(false)}
-                  className="py-3 text-base text-black hover:text-gray-600 transition-colors border-b border-gray-200"
+                  className="mobile-menu-link text-black hover:text-gray-600 transition-colors border-b border-gray-200"
                 >
                   About Us
                 </Link>
                 <Link
                   to="/contact"
                   onClick={() => setMobileMenuOpen(false)}
-                  className="py-3 text-base text-black hover:text-gray-600 transition-colors border-b border-gray-200"
+                  className="mobile-menu-link text-black hover:text-gray-600 transition-colors border-b border-gray-200"
                 >
                   Contact
                 </Link>
                 <Link
                   to="/auth"
                   onClick={() => setMobileMenuOpen(false)}
-                  className="py-3 text-base text-black hover:text-gray-600 transition-colors flex items-center gap-2"
+                  className="mobile-menu-link text-black hover:text-gray-600 transition-colors flex items-center gap-2"
                 >
                   <User className="h-5 w-5" />
                   Account

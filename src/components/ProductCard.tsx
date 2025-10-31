@@ -62,11 +62,11 @@ const ProductCard = ({ id, image, image_url, images, name, price, original_price
         {/* Wishlist button - DuJour style */}
         <button 
           onClick={handleWishlistClick}
-          className="absolute top-3 right-3 p-2 transition-all duration-300 hover:scale-110"
+          className="absolute top-2 right-2 sm:top-3 sm:right-3 p-2.5 sm:p-2 transition-all duration-300 hover:scale-110 bg-white/20 backdrop-blur-sm rounded-full sm:bg-transparent sm:backdrop-blur-none"
           aria-label={isInWishlist ? "Remove from wishlist" : "Add to wishlist"}
         >
           <Heart 
-            className={`h-5 w-5 transition-colors ${
+            className={`h-5 w-5 sm:h-5 sm:w-5 transition-colors ${
               isInWishlist 
                 ? "fill-red-500 text-red-500" 
                 : "text-white stroke-[1.5] drop-shadow-md"
