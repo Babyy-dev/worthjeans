@@ -150,14 +150,33 @@ export default function CollectionSections() {
         </section>
       ))}
 
-      {/* Brand Story Section */}
-      <section className="py-20 md:py-32 px-4 sm:px-6 lg:px-8 bg-black text-white">
-        <div className="max-w-4xl mx-auto text-center space-y-8">
+      {/* Brand Story Section with Parallax */}
+      <section className="relative py-20 md:py-32 px-4 sm:px-6 lg:px-8 overflow-hidden">
+        {/* Parallax Background Image */}
+        <motion.div
+          className="absolute inset-0 z-0"
+          initial={{ scale: 1.2 }}
+          whileInView={{ scale: 1 }}
+          transition={{ duration: 1.5, ease: "easeOut" }}
+          viewport={{ once: false, amount: 0.3 }}
+        >
+          <div 
+            className="w-full h-full bg-cover bg-center bg-fixed"
+            style={{
+              backgroundImage: 'url(https://images.unsplash.com/photo-1576995853123-5a10305d93c0?w=1920&h=1080&fit=crop)',
+            }}
+          />
+          {/* Dark overlay for text readability */}
+          <div className="absolute inset-0 bg-black/60" />
+        </motion.div>
+
+        {/* Content */}
+        <div className="relative z-10 max-w-4xl mx-auto text-center space-y-8">
           <motion.div
             {...fadeInUp}
             className="space-y-4"
           >
-            <h2 className="text-4xl md:text-5xl lg:text-6xl font-serif font-light tracking-tight">
+            <h2 className="text-4xl md:text-5xl lg:text-6xl font-serif font-light tracking-tight text-white">
               Worth Wearing
             </h2>
             <p className="text-lg md:text-xl text-white/80 leading-relaxed">

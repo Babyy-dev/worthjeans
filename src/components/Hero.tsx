@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 const Hero = () => {
   return (
-    <section className="relative h-[85vh] sm:h-[90vh] md:h-[90vh] flex items-center justify-center overflow-hidden">
+    <section className="relative h-[85vh] sm:h-[90vh] md:h-[90vh] flex items-center overflow-hidden">
       {/* Background video */}
       <video
         autoPlay
@@ -19,8 +19,8 @@ const Hero = () => {
       <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/50 to-transparent" />
 
       {/* Content */}
-      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-left">
-        <div className="max-w-xl">
+      <div className="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="max-w-xl text-left">
           <h1 className="hero-title-mobile sm:text-4xl md:text-5xl lg:text-7xl font-serif font-semibold sm:mb-6 animate-fade-in text-white leading-tight">
             Worth Jeans - Style with Comfort
           </h1>
@@ -33,7 +33,7 @@ const Hero = () => {
           </p>
           <Button
             size="lg"
-            className="hero-button-mobile sm:max-w-none bg-foreground text-background hover:bg-foreground/90 transition-all duration-300 animate-fade-in sm:w-auto"
+            className="hero-button-mobile sm:max-w-none bg-transparent border-2 border-white text-white hover:bg-white hover:text-black transition-all duration-300 animate-fade-in sm:w-auto"
             style={{ animationDelay: "0.4s" }}
             asChild
           >
