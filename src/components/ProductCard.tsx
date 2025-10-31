@@ -85,14 +85,14 @@ const ProductCard = ({ id, image, image_url, images, name, price, original_price
         </div>
       </div>
       
-      <div className="mt-3 space-y-1">
-        <h3 className="text-sm font-medium group-hover:underline transition-all">
+      <div className="mt-2 sm:mt-3 space-y-1">
+        <h3 className="text-xs sm:text-sm font-medium group-hover:underline transition-all line-clamp-2">
           {name}
         </h3>
-        <div className="flex items-baseline gap-2">
-          <span className="text-sm font-semibold">Rs. {price.toLocaleString()}</span>
+        <div className="flex items-baseline gap-1 sm:gap-2 flex-wrap">
+          <span className="text-xs sm:text-sm font-semibold">Rs. {price.toLocaleString()}</span>
           {productOriginalPrice && productOriginalPrice > price && (
-            <span className="text-xs text-muted-foreground line-through">
+            <span className="text-[10px] sm:text-xs text-muted-foreground line-through">
               Rs. {productOriginalPrice.toLocaleString()}
             </span>
           )}
