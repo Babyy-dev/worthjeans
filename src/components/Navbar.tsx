@@ -190,6 +190,15 @@ const Navbar = () => {
 
             {/* Icons */}
             <div className="flex items-center space-x-2 md:space-x-4">
+              {/* Search button - visible on mobile */}
+              <button
+                onClick={() => setSearchOpen(!searchOpen)}
+                className={`md:hidden p-2 hover:text-accent transition-colors ${textClasses}`}
+                aria-label="Search"
+              >
+                <Search className="h-4 w-4" />
+              </button>
+              
               {/* Small search bar - desktop only */}
               {searchOpen && (
                 <div className="hidden md:block relative">

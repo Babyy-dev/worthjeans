@@ -16,7 +16,7 @@ const Hero = () => {
       </video>
 
       {/* Dark overlay for better text readability */}
-      <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/50 to-transparent" />
+      <div className="absolute inset-0 bg-gradient-to-r from-black/50 via-black/30 to-transparent" />
 
       {/* Content */}
       <div className="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

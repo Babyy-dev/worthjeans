@@ -8,11 +8,11 @@ import { FloatingButtons } from "@/components/FloatingButtons";
 import { api } from "@/lib/api";
 
 const Collections = () => {
-  const { category } = useParams();
+  const { category } = useParams<{ category?: string }>();
   const [products, setProducts] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
 
-  const categoryNames: { [key: string]: string } = {
+  const categoryNames: Record<string, string> = {
     "narrow-fit": "Narrow Fit",
     "flare-cut": "Flare Cut",
     "straight-fit": "Straight Fit",
@@ -20,7 +20,7 @@ const Collections = () => {
     "cargo": "Cargo",
   };
 
-  const displayCategory = category ? categoryNames[category] || category : "All Collections";
+  const displayCategory = category ? (categoryNames[category] || category) : "All Collections";
 
   useEffect(() => {
     const fetchProducts = async () => {
