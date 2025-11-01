@@ -12,6 +12,7 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useEffect, useState, useRef } from "react";
 import { useCart } from "@/hooks/useCart";
 import { api } from "@/lib/api";
+import { motion, AnimatePresence } from "framer-motion";
 
 const Navbar = () => {
   const location = useLocation();
@@ -28,6 +29,21 @@ const Navbar = () => {
   const searchInputRef = useRef<HTMLInputElement>(null);
   const { getCartCount } = useCart();
   const cartCount = getCartCount();
+
+  // Announcement bar messages
+  const announcements = [
+    "Complimentary express shipping on all orders",
+    "DIWALI SALE IS LIVE - Flat 30% Off on all products"
+  ];
+  const [currentAnnouncementIndex, setCurrentAnnouncementIndex] = useState(0);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentAnnouncementIndex((prev) => (prev + 1) % announcements.length);
+    }, 10000); // Change every 10 seconds
+
+    return () => clearInterval(interval);
+  }, []);
 
   const collectionTypes = [
     { name: "Narrow Fit", slug: "narrow-fit" },
@@ -100,15 +116,25 @@ const Navbar = () => {
     <>
       <nav className={navClasses}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          {/* Top announcement bar */}
+          {/* Top announcement bar with slider */}
           <div
-            className={`py-2 text-center text-sm border-b transition-colors duration-300 ${
+            className={`py-2 text-center text-sm border-b transition-colors duration-300 relative overflow-hidden ${
               isHomePage && !isScrolled
                 ? "text-white/80 border-white/20"
                 : "text-muted-foreground border-border"
             }`}
           >
-            Complimentary express shipping on all orders
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={currentAnnouncementIndex}
+                initial={{ x: 100, opacity: 0 }}
+                animate={{ x: 0, opacity: 1 }}
+                exit={{ x: -100, opacity: 0 }}
+                transition={{ duration: 0.6, ease: "easeInOut" }}
+              >
+                {announcements[currentAnnouncementIndex]}
+              </motion.div>
+            </AnimatePresence>
           </div>
 
           {/* Main navigation */}
@@ -129,7 +155,7 @@ const Navbar = () => {
             {/* Logo */}
             <Link
               to="/"
-              className={`text-xl md:text-2xl font-serif font-semibold tracking-wide ${textClasses}`}
+              className={`text-base md:text-2xl font-serif font-semibold tracking-wide whitespace-nowrap ${textClasses}`}
             >
               WORTH JEANS
             </Link>
@@ -190,16 +216,7 @@ const Navbar = () => {
 
             {/* Icons */}
             <div className="flex items-center space-x-2 md:space-x-4">
-              {/* Search button - visible on mobile */}
-              <button
-                onClick={() => setSearchOpen(!searchOpen)}
-                className={`md:hidden p-2 hover:text-accent transition-colors ${textClasses}`}
-                aria-label="Search"
-              >
-                <Search className="h-4 w-4" />
-              </button>
-              
-              {/* Small search bar - desktop only */}
+              {/* Desktop search bar - inline */}
               {searchOpen && (
                 <div className="hidden md:block relative">
                   <div className="relative">
@@ -212,7 +229,7 @@ const Navbar = () => {
                       className="w-48 px-3 py-1.5 pr-8 text-sm border border-border rounded-full focus:outline-none focus:ring-2 focus:ring-accent bg-background text-foreground"
                     />
 
-                    {/* Compact search results */}
+                    {/* Desktop search results */}
                     {searchQuery.length >= 2 && (
                       <div className="absolute top-full right-0 mt-2 w-80 bg-background border border-border rounded-lg shadow-lg max-h-96 overflow-y-auto z-50">
                         {isSearching ? (
@@ -257,15 +274,75 @@ const Navbar = () => {
                 </div>
               )}
 
+              {/* Mobile search dropdown - below icon */}
+              {searchOpen && (
+                <div className="md:hidden fixed right-4 top-[76px] z-[99] w-[240px]">
+                  <div className="relative">
+                    <input
+                      ref={searchInputRef}
+                      type="text"
+                      placeholder="Search..."
+                      value={searchQuery}
+                      onChange={(e) => setSearchQuery(e.target.value)}
+                      className="w-full px-4 py-2 pr-10 text-sm rounded-full focus:outline-none focus:ring-2 focus:ring-accent bg-background text-foreground border-0 shadow-md"
+                    />
+                    <Search className="absolute right-4 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                  </div>
+                  
+                  {/* Mobile search results */}
+                  {searchQuery.length >= 2 && (
+                    <div className="mt-2 bg-background border border-border rounded-2xl shadow-lg max-h-64 overflow-y-auto">
+                      {isSearching ? (
+                        <p className="text-center text-muted-foreground py-3 text-xs">
+                          Searching...
+                        </p>
+                      ) : searchResults.length > 0 ? (
+                        <div className="py-1">
+                          {searchResults.map((product) => (
+                            <button
+                              key={product.id}
+                              onClick={() => handleProductClick(product.id)}
+                              className="w-full flex items-center gap-2 p-2 hover:bg-accent/10 transition-colors text-left"
+                            >
+                              <img
+                                src={product.image_url || "/placeholder.svg"}
+                                alt={product.name}
+                                className="w-10 h-10 object-cover rounded"
+                              />
+                              <div className="flex-1 min-w-0">
+                                <h3 className="font-medium text-xs truncate">
+                                  {product.name}
+                                </h3>
+                                <p className="text-xs text-muted-foreground truncate">
+                                  {product.description}
+                                </p>
+                                <p className="text-xs font-semibold mt-0.5">
+                                  ₹{product.price}
+                                </p>
+                              </div>
+                            </button>
+                          ))}
+                        </div>
+                      ) : (
+                        <p className="text-center text-muted-foreground py-3 text-xs">
+                          No products found
+                        </p>
+                      )}
+                    </div>
+                  )}
+                </div>
+              )}
+
+              {/* Search toggle button - all screens */}
               <button
                 onClick={() => setSearchOpen(!searchOpen)}
-                className={`hidden md:block p-2 hover:text-accent transition-colors ${textClasses}`}
+                className={`p-2 hover:text-accent transition-colors ${textClasses}`}
                 aria-label="Search"
               >
                 {searchOpen ? (
-                  <X className="h-5 w-5" />
+                  <X className="h-4 w-4 md:h-5 md:w-5" />
                 ) : (
-                  <Search className="h-5 w-5" />
+                  <Search className="h-4 w-4 md:h-5 md:w-5" />
                 )}
               </button>
               <Link
@@ -324,71 +401,12 @@ const Navbar = () => {
                 </button>
               </div>
 
-              {/* Mobile Search */}
-              <div className="px-4">
-                <div className="relative">
-                  <input
-                    type="text"
-                    placeholder="Search products..."
-                    value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
-                    className="w-full px-4 py-2 pr-10 text-sm border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-black bg-white text-black"
-                  />
-                  <Search className="absolute right-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-500" />
-                </div>
-
-                {/* Mobile search results */}
-                {searchQuery.length >= 2 && (
-                  <div className="mt-2 bg-white border border-gray-200 rounded-lg shadow-lg max-h-64 overflow-y-auto">
-                    {isSearching ? (
-                      <p className="text-center text-gray-500 py-3 text-xs">
-                        Searching...
-                      </p>
-                    ) : searchResults.length > 0 ? (
-                      <div className="py-1">
-                        {searchResults.map((product) => (
-                          <button
-                            key={product.id}
-                            onClick={() => {
-                              handleProductClick(product.id);
-                              setMobileMenuOpen(false);
-                            }}
-                            className="w-full flex items-center gap-2 p-2 hover:bg-gray-100 transition-colors text-left"
-                          >
-                            <img
-                              src={product.image_url || "/placeholder.svg"}
-                              alt={product.name}
-                              className="w-10 h-10 object-cover rounded"
-                            />
-                            <div className="flex-1 min-w-0">
-                              <h3 className="font-medium text-xs truncate text-black">
-                                {product.name}
-                              </h3>
-                              <p className="text-xs text-gray-600 truncate">
-                                {product.description}
-                              </p>
-                              <p className="text-xs font-semibold mt-0.5 text-black">
-                                ₹{product.price}
-                              </p>
-                            </div>
-                          </button>
-                        ))}
-                      </div>
-                    ) : (
-                      <p className="text-center text-gray-500 py-3 text-xs">
-                        No products found
-                      </p>
-                    )}
-                  </div>
-                )}
-              </div>
-
               {/* Mobile Navigation Links */}
-              <nav className="flex flex-col space-y-1 px-4">
+              <nav className="flex flex-col px-4">
                 <Link
                   to="/"
                   onClick={() => setMobileMenuOpen(false)}
-                  className="mobile-menu-link text-black hover:text-gray-600 transition-colors border-b border-gray-200"
+                  className="mobile-menu-link text-black hover:text-gray-600 transition-colors border-b border-gray-200 block"
                 >
                   Home
                 </Link>
@@ -399,7 +417,7 @@ const Navbar = () => {
                     onClick={() =>
                       setMobileCollectionsOpen(!mobileCollectionsOpen)
                     }
-                    className="mobile-menu-link w-full flex items-center justify-between font-semibold text-black hover:text-gray-600 transition-colors"
+                    className="mobile-menu-link w-full flex items-center justify-between font-semibold text-black hover:text-gray-600 transition-colors text-left"
                   >
                     <span>Collections</span>
                     <ChevronRight
@@ -409,7 +427,7 @@ const Navbar = () => {
                     />
                   </button>
                   {mobileCollectionsOpen && (
-                    <div className="pl-4 pb-2 space-y-2 animate-slide-down">
+                    <div className="pl-4 pb-2 animate-slide-down">
                       {collectionTypes.map((type) => (
                         <Link
                           key={type.slug}
@@ -427,14 +445,14 @@ const Navbar = () => {
                 <Link
                   to="/about"
                   onClick={() => setMobileMenuOpen(false)}
-                  className="mobile-menu-link text-black hover:text-gray-600 transition-colors border-b border-gray-200"
+                  className="mobile-menu-link text-black hover:text-gray-600 transition-colors border-b border-gray-200 block"
                 >
                   About Us
                 </Link>
                 <Link
                   to="/contact"
                   onClick={() => setMobileMenuOpen(false)}
-                  className="mobile-menu-link text-black hover:text-gray-600 transition-colors border-b border-gray-200"
+                  className="mobile-menu-link text-black hover:text-gray-600 transition-colors border-b border-gray-200 block"
                 >
                   Contact
                 </Link>

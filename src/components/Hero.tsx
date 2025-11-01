@@ -21,16 +21,16 @@ const Hero = () => {
       {/* Content */}
       <div className="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="max-w-xl text-left">
-          <h1 className="hero-title-mobile sm:text-4xl md:text-5xl lg:text-7xl font-serif font-semibold sm:mb-6 animate-fade-in text-white leading-tight">
-            Worth Jeans - Style with Comfort
+          <h1 className="hero-title-mobile sm:text-4xl md:text-2xl lg:text-4xl font-serif sm:mb-6 animate-fade-in text-white leading-tight">
+            Style your worth
           </h1>
-          <p
+          {/* <p
             className="hero-description-mobile sm:text-lg md:text-xl text-gray-200 sm:mb-8 animate-fade-in"
             style={{ animationDelay: "0.2s" }}
           >
             Premium quality jeans and fashion that deliver comfort, style, and
             lasting value
-          </p>
+          </p> */}
           <Button
             size="lg"
             className="hero-button-mobile sm:max-w-none bg-transparent border-2 border-white text-white hover:bg-white hover:text-black transition-all duration-300 animate-fade-in sm:w-auto"

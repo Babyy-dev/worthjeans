@@ -11,6 +11,11 @@ const demoProducts = [
     price: 2499,
     original_price: 3999,
     image_url: 'https://images.unsplash.com/photo-1542272604-787c3835535d?w=800&h=1000&fit=crop',
+    images: [
+      'https://images.unsplash.com/photo-1542272604-787c3835535d?w=800&h=1000&fit=crop',
+      'https://images.unsplash.com/photo-1576995853123-5a10305d93c0?w=800&h=1000&fit=crop',
+      'https://images.unsplash.com/photo-1604176354204-9268737828e4?w=800&h=1000&fit=crop',
+    ],
   },
   {
     id: 'demo-2',
@@ -21,6 +26,11 @@ const demoProducts = [
     price: 2799,
     original_price: 4299,
     image_url: 'https://images.unsplash.com/photo-1541099649105-f69ad21f3246?w=800&h=1000&fit=crop',
+    images: [
+      'https://images.unsplash.com/photo-1541099649105-f69ad21f3246?w=800&h=1000&fit=crop',
+      'https://images.unsplash.com/photo-1624378439575-d8705ad7ae80?w=800&h=1000&fit=crop',
+      'https://images.unsplash.com/photo-1582418702059-97ebafb35d09?w=800&h=1000&fit=crop',
+    ],
   },
   {
     id: 'demo-3',
@@ -31,6 +41,11 @@ const demoProducts = [
     price: 2999,
     original_price: 4599,
     image_url: 'https://images.unsplash.com/photo-1584370848010-d7fe6bc767ec?w=800&h=1000&fit=crop',
+    images: [
+      'https://images.unsplash.com/photo-1584370848010-d7fe6bc767ec?w=800&h=1000&fit=crop',
+      'https://images.unsplash.com/photo-1598554747436-c9293d6a588f?w=800&h=1000&fit=crop',
+      'https://images.unsplash.com/photo-1517438476312-10d79c077509?w=800&h=1000&fit=crop',
+    ],
   },
   {
     id: 'demo-4',
@@ -41,6 +56,11 @@ const demoProducts = [
     price: 3299,
     original_price: 4999,
     image_url: 'https://images.unsplash.com/photo-1473966968600-fa801b869a1a?w=800&h=1000&fit=crop',
+    images: [
+      'https://images.unsplash.com/photo-1473966968600-fa801b869a1a?w=800&h=1000&fit=crop',
+      'https://images.unsplash.com/photo-1591195853828-11db59a44f6b?w=800&h=1000&fit=crop',
+      'https://images.unsplash.com/photo-1555689502-c4b22d76c56f?w=800&h=1000&fit=crop',
+    ],
   }
 ];
 

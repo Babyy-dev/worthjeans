@@ -4,9 +4,7 @@ import {
   SheetContent,
   SheetHeader,
   SheetTitle,
-  SheetTrigger,
 } from "@/components/ui/sheet";
-import { Button } from "@/components/ui/button";
 
 interface HelpSidebarProps {
   open: boolean;
@@ -25,13 +23,13 @@ export const HelpSidebar = ({ open, onOpenChange }: HelpSidebarProps) => {
       icon: Phone,
       title: "Call us",
       description: "+1 (234) 567-890",
-      action: () => window.location.href = "tel:+1234567890",
+      action: () => (window.location.href = "tel:+1234567890"),
     },
     {
       icon: Mail,
       title: "Email us",
       description: "support@elegance.com",
-      action: () => window.location.href = "mailto:support@elegance.com",
+      action: () => (window.location.href = "mailto:support@elegance.com"),
     },
     {
       icon: HelpCircle,
@@ -47,7 +45,7 @@ export const HelpSidebar = ({ open, onOpenChange }: HelpSidebarProps) => {
         <SheetHeader>
           <SheetTitle>How can we help?</SheetTitle>
         </SheetHeader>
-        
+
         <div className="mt-6 space-y-4">
           {helpOptions.map((option, index) => (
             <button
@@ -61,7 +59,9 @@ export const HelpSidebar = ({ open, onOpenChange }: HelpSidebarProps) => {
                 </div>
                 <div className="flex-1">
                   <h3 className="font-semibold text-sm mb-1">{option.title}</h3>
-                  <p className="text-xs text-muted-foreground">{option.description}</p>
+                  <p className="text-xs text-muted-foreground">
+                    {option.description}
+                  </p>
                 </div>
               </div>
             </button>
