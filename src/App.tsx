@@ -13,7 +13,7 @@ import Auth from "./pages/Auth";
 import Wishlist from "./pages/Wishlist";
 import Admin from "./pages/Admin";
 import NotFound from "./pages/NotFound";
-import RecentPurchasePopup from "./components/RecentPurchasePopup";
+// import RecentPurchasePopup from "./components/RecentPurchasePopup";
 
 const queryClient = new QueryClient();
 
@@ -22,7 +22,7 @@ const App = () => (
     <TooltipProvider>
       <Toaster />
       <Sonner />
-      <RecentPurchasePopup />
+      {/* <RecentPurchasePopup /> */}
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Index />} />

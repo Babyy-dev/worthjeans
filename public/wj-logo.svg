@@ -1,0 +1,7 @@
+<svg width="120" height="48" viewBox="0 0 740 700" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <path d="M45 160 L85 50 L125 160 L165 160 L125 400 L85 400 L45 160 Z M240 50 L200 400 L160 400 L200 50 L240 50 Z" stroke="currentColor" stroke-width="4" fill="none"/>
+  <path d="M300 50 L340 50 L380 200 L420 50 L460 50 L420 400 L380 400 L300 50 Z" stroke="currentColor" stroke-width="4" fill="none"/>
+  <path d="M520 50 L560 50 L600 300 L640 50 L680 50 L700 400 L560 400 L520 50 Z" stroke="currentColor" stroke-width="4" fill="none"/>
+  <path d="M40 550 Q 40 650 120 650 Q 200 650 200 550 L 200 450 Q 200 600 120 600 Q 40 600 40 550 Z" stroke="currentColor" stroke-width="4" fill="none"/>
+  <path d="M700 550 Q 700 650 620 650 Q 540 650 540 550 L 540 450 Q 540 600 620 600 Q 700 600 700 550 Z" stroke="currentColor" stroke-width="4" fill="none"/>
+</svg>

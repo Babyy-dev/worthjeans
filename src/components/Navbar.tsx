@@ -33,7 +33,7 @@ const Navbar = () => {
   // Announcement bar messages
   const announcements = [
     "Complimentary express shipping on all orders",
-    "DIWALI SALE IS LIVE - Flat 30% Off on all products"
+    "DIWALI SALE IS LIVE - Flat 30% Off on all products",
   ];
   const [currentAnnouncementIndex, setCurrentAnnouncementIndex] = useState(0);
 
@@ -153,11 +153,18 @@ const Navbar = () => {
             </button>
 
             {/* Logo */}
-            <Link
-              to="/"
-              className={`text-base md:text-2xl font-serif font-semibold tracking-wide whitespace-nowrap ${textClasses}`}
-            >
-              WORTH JEANS
+            <Link to="/" className="flex items-center">
+              <img
+                src="/logo.png"
+                alt="Worth Jeans"
+                className={`h-10 sm:h-12 md:h-14 w-auto max-w-[140px] sm:max-w-[160px] md:max-w-none ${textClasses}`}
+                style={{
+                  filter:
+                    isHomePage && !isScrolled
+                      ? "brightness(0) invert(1)"
+                      : "none",
+                }}
+              />
             </Link>
 
             {/* Navigation links */}
@@ -288,7 +295,7 @@ const Navbar = () => {
                     />
                     <Search className="absolute right-4 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                   </div>
-                  
+
                   {/* Mobile search results */}
                   {searchQuery.length >= 2 && (
                     <div className="mt-2 bg-background border border-border rounded-2xl shadow-lg max-h-64 overflow-y-auto">
