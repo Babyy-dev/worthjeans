@@ -157,7 +157,7 @@ const Navbar = () => {
               <img
                 src="/logo.png"
                 alt="Worth Jeans"
-                className={`h-10 sm:h-12 md:h-14 w-auto max-w-[140px] sm:max-w-[160px] md:max-w-none ${textClasses}`}
+                className={`h-12 sm:h-14 md:h-16 w-auto max-w-[160px] sm:max-w-[180px] md:max-w-none ${textClasses}`}
                 style={{
                   filter:
                     isHomePage && !isScrolled
